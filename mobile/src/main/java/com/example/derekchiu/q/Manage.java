@@ -1,8 +1,10 @@
 package com.example.derekchiu.q;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MotionEventCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -26,8 +28,10 @@ public class Manage extends Activity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = MotionEventCompat.getActionMasked(event);
-                if (action == MotionEvent.ACTION_SCROLL) {
+//                Log.i("ACTION", MotionEvent.actionToString(action));
+                if (action == MotionEvent.ACTION_MOVE) {
                     // do something
+                    Log.i("SCROLL UP", "YOU ARE SCROLLING UP OR DOWN");
                 }
                 return false;
             }
@@ -36,6 +40,8 @@ public class Manage extends Activity {
         manageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent resume = new Intent(Manage.this, Resume.class);
+                startActivity(resume);
                 // IF WE DO RESUME -- GET REQUEST ON RESUME
 
             }

@@ -17,12 +17,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         login = (ImageButton) findViewById(R.id.login);
-        final Intent manageView = new Intent(this, Manage.class);
         // Store username.
-        manageView.putExtra("username", username);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent manageView = new Intent(MainActivity.this, Manage.class);
+                manageView.putExtra("username", username);
                 startActivity(manageView);
             }
         });

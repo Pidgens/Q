@@ -13,4 +13,5 @@ public class Resume extends Activity {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.resume);
     }
+
 }
