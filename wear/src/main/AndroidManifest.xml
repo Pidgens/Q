@@ -12,6 +12,22 @@
         android:theme="@android:style/Theme.DeviceDefault" >
 
         <activity
+            android:name=".PeopleNamesActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PeopleNamesCountdownActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".DismissCountdownActivity"
+            android:label="@string/app_name" />
+
+        <activity
             android:name=".QueueActivity">
             android:label="QueueActivity" >
             <intent-filter>
