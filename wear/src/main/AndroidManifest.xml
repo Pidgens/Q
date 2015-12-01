@@ -12,13 +12,7 @@
         android:theme="@android:style/Theme.DeviceDefault" >
         <activity
             android:name=".MyStubBroadcastActivity"
-            android:label="MyStubBroadcastActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="MyStubBroadcastActivity" />
         <activity
             android:name=".MyDisplayActivity"
             android:allowEmbedded="true"
@@ -26,6 +20,21 @@
             android:taskAffinity=""
             android:theme="@android:style/Theme.DeviceDefault.Light" >
         </activity>
+        <activity
+            android:name=".PeopleNamesActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PeopleNamesCountdownActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".DismissCountdownActivity"
+            android:label="@string/app_name" />
 
         <receiver
             android:name=".MyPostNotificationReceiver"

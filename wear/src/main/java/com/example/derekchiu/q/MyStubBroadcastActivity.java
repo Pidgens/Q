@@ -1,14 +1,12 @@
 package com.example.derekchiu.q;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 
 /**
  * Example shell activity which simply broadcasts to our receiver and exits.
  */
 public class MyStubBroadcastActivity extends Activity {
-    @Override
+    /**@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -18,4 +16,5 @@ public class MyStubBroadcastActivity extends Activity {
         sendBroadcast(i);
         finish();
     }
+    */
 }
