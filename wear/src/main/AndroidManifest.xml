@@ -10,16 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault" >
-        <activity
-            android:name=".MyStubBroadcastActivity"
-            android:label="MyStubBroadcastActivity" />
-        <activity
-            android:name=".MyDisplayActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:taskAffinity=""
-            android:theme="@android:style/Theme.DeviceDefault.Light" >
-        </activity>
+
         <activity
             android:name=".PeopleNamesActivity"
             android:label="@string/app_name" >
@@ -36,13 +27,17 @@
             android:name=".DismissCountdownActivity"
             android:label="@string/app_name" />
 
-        <receiver
-            android:name=".MyPostNotificationReceiver"
-            android:exported="true" >
+        <activity
+            android:name=".QueueActivity">
+            android:label="QueueActivity" >
             <intent-filter>
-                <action android:name="com.example.derekchiu.q.SHOW_NOTIFICATION" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </receiver>
+        </activity>
+        <activity android:name=".DropActivity"></activity>
+        <activity android:name=".BumpActivity"></activity>
+        <activity android:name=".TimerActivity"></activity>
     </application>
 
 </manifest>
