@@ -43,7 +43,6 @@ public class Manage extends Activity {
                 Intent resume = new Intent(Manage.this, Resume.class);
                 startActivity(resume);
                 // IF WE DO RESUME -- GET REQUEST ON RESUME
-
             }
         });
 
