@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -20,6 +19,8 @@ import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.WearableListenerService;
 
+import java.util.Queue;
+
 /**
  * Created by tomo on 12/1/15.
  */
@@ -28,6 +29,7 @@ public class ChooseFlowActivity extends Activity {
     Context context;
 
     String WEARABLE_COMPANY_PATH = "/wearable_company";
+    String WEARABLE_JS_PATH = "/wearable_js";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,21 +73,30 @@ public class ChooseFlowActivity extends Activity {
                 // Check the event type
                 if (event.getType() == DataEvent.TYPE_CHANGED) {
                     // Check the data path
-                    if (event.getDataItem().getUri().getPath().equals(WEARABLE_COMPANY_PATH)) {
-                        // Create a local notification
-                        dataMap = DataMapItem.fromDataItem(event.getDataItem()).getDataMap();
-                        sendLocalNotification(dataMap);
-                    }
+                    String path = event.getDataItem().getUri().getPath();
+                    // Create a local notification
+                    dataMap = DataMapItem.fromDataItem(event.getDataItem()).getDataMap();
+                    sendLocalNotification(dataMap, path);
                 }
             }
         }
     }
 
-    private void sendLocalNotification(DataMap dataMap) {
+    private void sendLocalNotification(DataMap dataMap, String path) {
         int notificationId = 001;
 
-        Intent startIntent = new Intent(this, PeopleNamesActivity.class)
-                .setAction(Intent.ACTION_MAIN);
+        Intent startIntent;
+
+        if (path.equals(WEARABLE_COMPANY_PATH)) {
+            startIntent = new Intent(this, PeopleNamesActivity.class)
+                    .setAction(Intent.ACTION_MAIN);
+        } else if (path.equals(WEARABLE_JS_PATH)) {
+            startIntent = new Intent(this, QueueActivity.class)
+                    .setAction(Intent.ACTION_MAIN);
+        } else {
+            startIntent = new Intent(this, ChooseFlowActivity.class)
+                    .setAction(Intent.ACTION_MAIN);
+        }
         PendingIntent startPendingIntent =
                 PendingIntent.getActivity(this, 0, startIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
