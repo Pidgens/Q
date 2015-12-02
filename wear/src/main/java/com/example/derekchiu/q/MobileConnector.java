@@ -12,6 +12,7 @@ import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.WearableListenerService;
 import android.util.Log;
+import com.google.android.gms.wearable.MessageEvent;
 
 /**
  * Created by tomo on 12/1/15.
@@ -39,6 +40,12 @@ public class MobileConnector extends WearableListenerService {
         }
     }
 
+    @Override
+    public void onMessageReceived(MessageEvent messageEvent) {
+        Log.v("message", "received");
+        super.onMessageReceived(messageEvent);
+    }
+
     private void sendLocalNotification(DataMap dataMap, String path) {
         int notificationId = 001;
 
@@ -46,18 +53,15 @@ public class MobileConnector extends WearableListenerService {
         Log.v("p", path);
         if (path.equals(WEARABLE_COMPANY_PATH)) {
             Log.v("path", "comp");
-            startIntent = new Intent(this, PeopleNamesActivity.class)
-                    .setAction(Intent.ACTION_MAIN);
+            startIntent = new Intent(this, PeopleNamesActivity.class);
         } else if (path.equals(WEARABLE_JS_PATH)) {
             Log.v("path", "js");
 
-            startIntent = new Intent(this, QueueActivity.class)
-                    .setAction(Intent.ACTION_MAIN);
+            startIntent = new Intent(this, QueueActivity.class);
         } else {
             Log.v("path", "choose");
 
-            startIntent = new Intent(this, ChooseFlowActivity.class)
-                    .setAction(Intent.ACTION_MAIN);
+            startIntent = new Intent(this, ChooseFlowActivity.class);
         }
         PendingIntent startPendingIntent =
                 PendingIntent.getActivity(this, 0, startIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -65,10 +69,13 @@ public class MobileConnector extends WearableListenerService {
         Notification notify = new NotificationCompat.Builder(this)
                 .setContentTitle("Open Q!")
                 .setAutoCancel(true)
+                .setSmallIcon(R.drawable.ic_full_sad)
                 .setContentIntent(startPendingIntent)
                 .build();
 
+        Log.v("path", "hello world");
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        Log.v("path", "hello world2");
         notificationManager.notify(notificationId, notify);
     }
 }

@@ -26,7 +26,7 @@ public class JSPersonalize extends Activity implements
         GoogleApiClient.OnConnectionFailedListener {
 
     Button nextButton;
-    String WEARABLE_JS_PATH = "/wearble_js";
+    String WEARABLE_JS_PATH = "/wearable_js";
     GoogleApiClient googleClient;
 
     @Override
