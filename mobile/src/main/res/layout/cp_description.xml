@@ -5,10 +5,52 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/join_button"
+        android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:src="@drawable/cp_descrip"
-        android:layout_alignParentBottom="true"
+        android:src="@drawable/walmart"
+        android:layout_marginTop="-130dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Walmart is an American multinational company that operates a chain of discount stores."
+        android:id="@+id/textView16"
+        android:textSize="20dp"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="52dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Join Queue"
+        android:id="@+id/joinButton"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:textSize="24dp"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Positions Available"
+        android:id="@+id/textView17"
+        android:layout_below="@+id/joinButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:textSize="26dp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_below="@+id/textView17"
+        android:layout_alignStart="@+id/textView16"
+        android:choiceMode="singleChoice"
+        android:layout_alignEnd="@+id/joinButton" />
+
 </RelativeLayout>
