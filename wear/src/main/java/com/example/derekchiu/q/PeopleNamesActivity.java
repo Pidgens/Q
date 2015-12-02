@@ -31,6 +31,15 @@ public class PeopleNamesActivity extends Activity {
                 startActivity(i);
             }
         });
+        button.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent queue = new Intent(PeopleNamesActivity.this,
+                        ChooseFlowActivity.class);
+                startActivity(queue);
+                return true;
+            }
+        });
         /**CustomGestureDetector customGestureDetector = new CustomGestureDetector();
         // Create a GestureDetector
         mGestureDetector = new GestureDetector(this, customGestureDetector);
