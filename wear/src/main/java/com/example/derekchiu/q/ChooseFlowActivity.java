@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.util.Log;
 
 /**
  * Created by tomo on 12/1/15.
@@ -21,6 +22,7 @@ public class ChooseFlowActivity extends Activity {
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(getMainView());
+        Log.v("oncreate", "choose flow");
     }
 
     private TextView getMainView() {
