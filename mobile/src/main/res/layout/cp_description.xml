@@ -8,5 +8,7 @@
         android:id="@+id/join_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:src="@drawable/cp_descrip" />
+        android:src="@drawable/cp_descrip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
