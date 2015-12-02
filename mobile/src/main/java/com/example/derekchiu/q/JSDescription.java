@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * Created by derekchiu on 11/30/15.
+ * Created by derekchiu on 12/1/15.
  */
-public class Resume extends Activity {
+public class JSDescription extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
-        setContentView(R.layout.resume);
+        setContentView(R.layout.manage_page);
+
     }
 }

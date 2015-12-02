@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * Created by derekchiu on 11/30/15.
+ * Created by derekchiu on 12/1/15.
  */
-public class CompanyDescription extends Activity {
-
+public class EnterQueue extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
-        setContentView(R.layout.js_description);
+        setContentView(R.layout.cp_description);
+
     }
 }

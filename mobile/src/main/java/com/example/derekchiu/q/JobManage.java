@@ -16,9 +16,9 @@ public class JobManage extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
-        setContentView(R.layout.js_list);
+        setContentView(R.layout.manage_page);
 
-        company_descrip = (ImageView) findViewById(R.id.cp_list);
+        company_descrip = (ImageView) findViewById(R.id.manageImage);
         company_descrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
