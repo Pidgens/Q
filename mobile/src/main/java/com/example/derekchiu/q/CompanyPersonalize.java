@@ -15,6 +15,8 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import java.util.Calendar;
+
 /**
  * Created by derekchiu on 11/30/15.
  */
@@ -35,13 +37,17 @@ public class CompanyPersonalize extends Activity implements
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+        googleClient.connect();
 
         next = (Button) findViewById(R.id.nextButton);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                int seconds = c.get(Calendar.SECOND);
                 Intent i = new Intent(CompanyPersonalize.this, JobManage.class);
                 DataMap notifyWearable = new DataMap();
+                notifyWearable.putInt("time", seconds);
                 new SendToDataLayerThread(WEARABLE_COMPANY_PATH, notifyWearable).start();
                 startActivity(i);
             }
