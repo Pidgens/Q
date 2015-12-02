@@ -13,7 +13,7 @@
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="70dp"
         android:textSize="32dp"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="10dp" />
@@ -82,8 +82,21 @@
         android:text="Next"
         android:id="@+id/jsNext"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="46dp"
+        android:layout_marginBottom="25dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:textSize="24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome Alice Mary, help us let you know better by filling out this form"
+        android:id="@+id/textView14"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 </RelativeLayout>
