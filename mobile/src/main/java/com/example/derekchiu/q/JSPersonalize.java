@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,14 +27,33 @@ public class JSPersonalize extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    EditText school;
+    EditText major;
+    EditText positions;
     Button nextButton;
     String WEARABLE_JS_PATH = "/wearable_js";
     GoogleApiClient googleClient;
+    String begin_welcome_msg = "Welcome ";
+    String end_welcome_msg = ", help us let you know better by filling out this form";
+    TextView welcomeTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.js_personalize);
+
+        welcomeTv = (TextView) findViewById(R.id.welcome);
+        school = (EditText) findViewById(R.id.school);
+        major = (EditText) findViewById(R.id.major);
+        positions = (EditText) findViewById(R.id.position);
+
+        String school_string = school.getText().toString();
+        String major_string = major.getText().toString();
+        Bundle name = getIntent().getExtras();
+        String username = name.get("user").toString();
+        String full_string = begin_welcome_msg + username + end_welcome_msg;
+        welcomeTv.setText(full_string);
+
         googleClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
