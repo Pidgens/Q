@@ -29,7 +29,7 @@ public class CompanyPersonalize extends Activity implements
     Button next;
     String WEARABLE_COMPANY_PATH = "/wearable_company";
     GoogleApiClient googleClient;
-    Bundle extras = getIntent().getExtras();
+    Bundle extras;
     TextView introText;
     DBUtil dbutil;
 
@@ -37,6 +37,9 @@ public class CompanyPersonalize extends Activity implements
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.cp_personalize);
+
+        extras = getIntent().getExtras();
+
         googleClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
@@ -61,8 +64,8 @@ public class CompanyPersonalize extends Activity implements
                 EditText name = (EditText) findViewById(R.id.name);
                 EditText company = (EditText) findViewById(R.id.editText);
                 EditText seeking = (EditText) findViewById(R.id.cp_seek);
-                i.putExtra("company", company.toString());
-                dbutil.saveCompany(name.getText().toString(), company.getText().toString(), seeking.getText().toString());
+                i.putExtra("company", company.getText().toString());
+//                dbutil.saveCompany(name.getText().toString(), company.getText().toString(), seeking.getText().toString());
 
                 DataMap notifyWearable = new DataMap();
                 notifyWearable.putInt("time", seconds);

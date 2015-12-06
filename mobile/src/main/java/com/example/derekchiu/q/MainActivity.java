@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.parse.ParseObject;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
+
 
         job_seeker = (Button) findViewById(R.id.js_button);
         recruiter = (Button) findViewById(R.id.rec_button);
