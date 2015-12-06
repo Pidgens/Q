@@ -55,16 +55,13 @@ public class CompanyPersonalize extends Activity implements
     }
 
     @Override
-    public void onConnected(Bundle bundle) {
-    }
+    public void onConnected(Bundle bundle) { }
 
     @Override
-    public void onConnectionSuspended(int i) {
-    }
+    public void onConnectionSuspended(int i) { }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-    }
+    public void onConnectionFailed(ConnectionResult connectionResult) { }
 
     class SendToDataLayerThread extends Thread {
         String path;
