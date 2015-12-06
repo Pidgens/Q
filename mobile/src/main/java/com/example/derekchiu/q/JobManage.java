@@ -19,6 +19,8 @@ public class JobManage extends Activity {
 
     ImageView company_descrip;
     ListView lv2;
+    Bundle extras = getIntent().getExtras();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
@@ -26,13 +28,7 @@ public class JobManage extends Activity {
         setContentView(R.layout.manage_page);
 
         lv2 = (ListView) findViewById(R.id.lvJSList);
-        ArrayList<String> jobseekersList = new ArrayList<String>();
-        jobseekersList.add("John Doe");
-        jobseekersList.add("Tomo Ueda");
-        jobseekersList.add("Patrick Mc Gartoll");
-        jobseekersList.add("Derek Chiu");
-        jobseekersList.add("Roy Kim");
-        jobseekersList.add("Daniel He");
+        ArrayList<String> jobseekersList = DBUtil.getQueue(extras.getString("company"));
         ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, jobseekersList);
         lv2.setAdapter(listAdapter);
 
