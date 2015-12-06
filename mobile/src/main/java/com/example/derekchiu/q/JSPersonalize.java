@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -15,7 +18,14 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+
 
 
 /**
@@ -25,14 +35,38 @@ public class JSPersonalize extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    AutoCompleteTextView school;
+    AutoCompleteTextView major;
+    AutoCompleteTextView positions;
     Button nextButton;
     String WEARABLE_JS_PATH = "/wearable_js";
     GoogleApiClient googleClient;
+    String begin_welcome_msg = "Welcome ";
+    String end_welcome_msg = ", help us let you know better by filling out this form";
+    TextView welcomeTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.js_personalize);
+
+        welcomeTv = (TextView) findViewById(R.id.welcome);
+        school = (AutoCompleteTextView) findViewById(R.id.school);
+        ArrayAdapter<String> schoolAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, SCHOOLS);
+        school.setAdapter(schoolAdapter);
+        major = (AutoCompleteTextView) findViewById(R.id.major);
+        String[] majors = readCSV();
+        ArrayAdapter<String> majorAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, majors);
+        major.setAdapter(majorAdapter);
+        positions = (AutoCompleteTextView) findViewById(R.id.position);
+
+        String school_string = school.getText().toString();
+        String major_string = major.getText().toString();
+        Bundle name = getIntent().getExtras();
+        String username = name.get("user").toString();
+        String full_string = begin_welcome_msg + username + end_welcome_msg;
+        welcomeTv.setText(full_string);
+
         googleClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
@@ -67,6 +101,38 @@ public class JSPersonalize extends Activity implements
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
     }
+
+    private static final String[] SCHOOLS = new String[] {
+        "University of California, Berkeley",
+        "University of California, Los Angeles",
+        "University of California, Irvine",
+    };
+
+    private final String[] readCSV() {
+        InputStream inputStream = getResources().openRawResource(R.raw.majors);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        ArrayList<String> majorAL = new ArrayList<String>();
+        try {
+            String csvLine;
+            while ((csvLine = reader.readLine()) != null) {
+                String[] row = csvLine.split(",");
+                majorAL.add(row[1]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException("Error");
+            }
+        }
+        return majorAL.toArray(new String[majorAL.size()]);
+    };
+
+    private static final String[] MAJORS = new String[] {
+
+    };
 
     class SendToDataLayerThread extends Thread {
         String path;

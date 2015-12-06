@@ -3,9 +3,12 @@ package com.example.derekchiu.q;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,17 +30,31 @@ public class CompanyPersonalize extends Activity implements
     Button next;
     String WEARABLE_COMPANY_PATH = "/wearable_company";
     GoogleApiClient googleClient;
+    Bundle extras;
+    TextView introText;
+    DBUtil dbutil;
+    String androidId;
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.cp_personalize);
+
+        extras = getIntent().getExtras();
+
+        androidId = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
         googleClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
         googleClient.connect();
+
+        introText = (TextView) findViewById(R.id.textView15);
+        introText.setText("Hi " + extras.getString("user") + " let us know what candidates you are interested in.");
+
 
         next = (Button) findViewById(R.id.nextButton);
         next.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +63,15 @@ public class CompanyPersonalize extends Activity implements
                 Calendar c = Calendar.getInstance();
                 int seconds = c.get(Calendar.SECOND);
                 Intent i = new Intent(CompanyPersonalize.this, JobManage.class);
+                i.putExtra("user", extras.getString("user"));
+
+
+                EditText name = (EditText) findViewById(R.id.name);
+                EditText company = (EditText) findViewById(R.id.editText);
+                EditText seeking = (EditText) findViewById(R.id.cp_seek);
+                i.putExtra("company", company.getText().toString());
+                dbutil.saveRecruiter(androidId, name.getText().toString(), company.getText().toString(), seeking.getText().toString());
+
                 DataMap notifyWearable = new DataMap();
                 notifyWearable.putInt("time", seconds);
                 new SendToDataLayerThread(WEARABLE_COMPANY_PATH, notifyWearable).start();

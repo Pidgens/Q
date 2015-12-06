@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.parse.ParseObject;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,17 +29,18 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
 
+
         job_seeker = (Button) findViewById(R.id.js_button);
         recruiter = (Button) findViewById(R.id.rec_button);
         your_name = (EditText) findViewById(R.id.your_name);
         slogan = (TextView) findViewById(R.id.app_slogan);
-//        username = your_name.getText().toString();
         // Store username.
         recruiter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent manageView = new Intent(MainActivity.this, CompanyPersonalize.class);
-//                manageView.putExtra("username", username);
+                username = your_name.getText().toString();
+                manageView.putExtra("user", username.toString());
                 startActivity(manageView);
             }
         });
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent job_manager = new Intent(MainActivity.this, JSPersonalize.class);
+                username = your_name.getText().toString();
+                job_manager.putExtra("user", username.toString());
                 startActivity(job_manager);
             }
         });
