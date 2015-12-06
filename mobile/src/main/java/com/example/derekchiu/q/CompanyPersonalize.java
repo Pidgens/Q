@@ -3,6 +3,7 @@ package com.example.derekchiu.q;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,7 @@ public class CompanyPersonalize extends Activity implements
     Bundle extras;
     TextView introText;
     DBUtil dbutil;
+    String androidId;
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
@@ -39,6 +41,9 @@ public class CompanyPersonalize extends Activity implements
         setContentView(R.layout.cp_personalize);
 
         extras = getIntent().getExtras();
+
+        androidId = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
         googleClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
@@ -65,7 +70,7 @@ public class CompanyPersonalize extends Activity implements
                 EditText company = (EditText) findViewById(R.id.editText);
                 EditText seeking = (EditText) findViewById(R.id.cp_seek);
                 i.putExtra("company", company.getText().toString());
-//                dbutil.saveCompany(name.getText().toString(), company.getText().toString(), seeking.getText().toString());
+                dbutil.saveRecruiter(androidId, name.getText().toString(), company.getText().toString(), seeking.getText().toString());
 
                 DataMap notifyWearable = new DataMap();
                 notifyWearable.putInt("time", seconds);

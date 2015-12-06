@@ -135,4 +135,17 @@ public class DBUtil {
         query.findInBackground(callback);
     }
 
+    public static void saveRecruiter(String myId, String name, String company, String lookingFor) {
+        ParseObject recruiter = new ParseObject("Recruiter");
+        recruiter.put("userID", myId);
+        recruiter.put("company", company);
+        recruiter.put("lookingFor", lookingFor);
+        recruiter.put("name", name);
+        ParseACL acl = new ParseACL();
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(true);
+        recruiter.setACL(acl);
+        recruiter.saveInBackground();
+    }
+
 }
