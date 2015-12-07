@@ -26,12 +26,14 @@ public class Manage extends Activity {
     ArrayList<String> companiesList;
     ArrayList<ParseObject> pfobjectsList;
     ArrayAdapter listAdapter;
-    Bundle extras = getIntent().getExtras();
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.js_list);
+
+        extras = getIntent().getExtras();
 
         companiesListView = (ListView) findViewById(R.id.companiesListView);
 
@@ -65,34 +67,14 @@ public class Manage extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(Manage.this, CompanyDescription.class);
-                ParseObject userObj = pfobjectsList.get(position);
-                i.putExtra("companyName", userObj.getString("name"));
-                i.putExtra("userId", extras.getString("userID"));
+                ParseObject companyObj = pfobjectsList.get(position);
+                i.putExtra("Description", companyObj.getString("description"));
+                i.putExtra("LogoURL", companyObj.getString("logoURL"));
+                i.putExtra("Company", companyObj.getString("name"));
 
                 startActivity(i);
             }
         });
-
-//        manageView = (ImageView) findViewById(R.id.cp_list);
-//        manageView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int action = MotionEventCompat.getActionMasked(event);
-//                if (action == MotionEvent.ACTION_SCROLL) {
-//                    // do something
-//                }
-//                return false;
-//            }
-//        });
-//
-//        manageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // IF WE DO RESUME -- GET REQUEST ON RESUME
-//                Intent i = new Intent(Manage.this, EnterQueue.class);
-//                startActivity(i);
-//            }
-//        });
 
     }
 }

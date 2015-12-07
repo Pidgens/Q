@@ -42,6 +42,7 @@ public class DBUtil {
                     });
                 } else {
                     Log.d("place", "Can't add self because I already exist");
+                    callback.done(null);
                 }
 
             }

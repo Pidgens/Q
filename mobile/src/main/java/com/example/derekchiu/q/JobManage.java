@@ -85,14 +85,6 @@ public class JobManage extends Activity {
             }
         });
 
-//        company_descrip = (ImageView) findViewById(R.id.manageImage);
-//        company_descrip.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent descrip_page = new Intent(JobManage.this, CompanyDescription.class);
-//                startActivity(descrip_page);
-//            }
-//        });
     }
 
 }
