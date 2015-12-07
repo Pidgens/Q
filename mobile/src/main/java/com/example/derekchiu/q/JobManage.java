@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -25,6 +26,8 @@ public class JobManage extends Activity {
 
     ImageView company_descrip;
     ListView lv2;
+    TextView queueLength;
+    TextView title;
     Bundle extras;
     ArrayAdapter listAdapter;
     ArrayList<String> jobseekersList;
@@ -41,6 +44,8 @@ public class JobManage extends Activity {
         jobseekersList = new ArrayList<String>();
         pfobjectsList = new ArrayList<ParseObject>();
 
+        title = (TextView) findViewById(R.id.textView18);
+        title.setText("Queue For " + extras.getString("company"));
 
         DBUtil.getQueue(extras.getString("company"), new FindCallback<ParseObject>() {
             public void done(List<ParseObject> queueList, ParseException e) {
@@ -59,6 +64,10 @@ public class JobManage extends Activity {
                 }
             }
         });
+
+        queueLength = (TextView) findViewById(R.id.textView19);
+
+        queueLength.setText("Queue Size: " + jobseekersList.size());
 
 
         listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, jobseekersList);
