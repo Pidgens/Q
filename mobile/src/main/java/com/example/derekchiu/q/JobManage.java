@@ -68,7 +68,7 @@ public class JobManage extends Activity {
         lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(JobManage.this, CompanyDescription.class);
+                Intent i = new Intent(JobManage.this, JSDescription.class);
                 ParseObject userObj = pfobjectsList.get(position);
                 i.putExtra("UserID", userObj.getString("userID"));
 
