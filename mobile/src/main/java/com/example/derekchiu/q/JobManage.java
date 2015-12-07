@@ -28,6 +28,7 @@ public class JobManage extends Activity {
     Bundle extras;
     ArrayAdapter listAdapter;
     ArrayList<String> jobseekersList;
+    ArrayList<ParseObject> pfobjectsList;
 
 
     @Override
@@ -37,14 +38,18 @@ public class JobManage extends Activity {
 
         extras = getIntent().getExtras();
 
-        Log.d("company", "THIS:" + extras.getString("company"));
+        jobseekersList = new ArrayList<String>();
+        pfobjectsList = new ArrayList<ParseObject>();
+
 
         DBUtil.getQueue(extras.getString("company"), new FindCallback<ParseObject>() {
             public void done(List<ParseObject> queueList, ParseException e) {
                 if (e == null) {
                     jobseekersList.clear();
+                    pfobjectsList.clear();
                     for (ParseObject object : queueList) {
                         jobseekersList.add(object.getString("name"));
+                        pfobjectsList.add(object);
                     }
                     Log.d("okay", "Got " + queueList.size());
 
@@ -55,7 +60,7 @@ public class JobManage extends Activity {
             }
         });
 
-        jobseekersList = new ArrayList<String>();
+
         listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, jobseekersList);
         lv2 = (ListView) findViewById(R.id.lvJSList);
         lv2.setAdapter(listAdapter);
@@ -63,10 +68,11 @@ public class JobManage extends Activity {
         lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    Intent i = new Intent(JobManage.this, CompanyDescription.class);
-                    startActivity(i);
-                }
+                Intent i = new Intent(JobManage.this, CompanyDescription.class);
+                ParseObject userObj = pfobjectsList.get(position);
+                i.putExtra("UserID", userObj.getString("userID"));
+
+                startActivity(i);
             }
         });
 
