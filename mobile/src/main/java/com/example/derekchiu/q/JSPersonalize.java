@@ -3,6 +3,7 @@ package com.example.derekchiu.q;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -34,7 +35,7 @@ import java.util.Calendar;
 public class JSPersonalize extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-
+    String androidId;
     AutoCompleteTextView school;
     AutoCompleteTextView major;
     AutoCompleteTextView positions;
@@ -60,12 +61,16 @@ public class JSPersonalize extends Activity implements
         major.setAdapter(majorAdapter);
         positions = (AutoCompleteTextView) findViewById(R.id.position);
 
+        androidId = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
         String school_string = school.getText().toString();
         String major_string = major.getText().toString();
         Bundle name = getIntent().getExtras();
         String username = name.get("user").toString();
         String full_string = begin_welcome_msg + username + end_welcome_msg;
         welcomeTv.setText(full_string);
+        //dbutil.saveUser();
 
         googleClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
@@ -81,6 +86,7 @@ public class JSPersonalize extends Activity implements
                 Calendar c = Calendar.getInstance();
                 int seconds = c.get(Calendar.SECOND);
                 Intent i = new Intent(JSPersonalize.this, Manage.class);
+                i.putExtra("userId", androidId);
                 DataMap notifyWearable = new DataMap();
                 notifyWearable.putInt("time", seconds);
                 new SendToDataLayerThread(WEARABLE_JS_PATH, notifyWearable).start();

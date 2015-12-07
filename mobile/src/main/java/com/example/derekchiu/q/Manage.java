@@ -1,8 +1,11 @@
 package com.example.derekchiu.q;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,6 +26,7 @@ public class Manage extends Activity {
     ArrayList<String> companiesList;
     ArrayList<ParseObject> pfobjectsList;
     ArrayAdapter listAdapter;
+    Bundle extras = getIntent().getExtras();
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
@@ -52,6 +56,20 @@ public class Manage extends Activity {
                 } else {
                     Log.d("pull queue", "Error: " + e.getMessage());
                 }
+            }
+        });
+
+        companiesListView.setAdapter(listAdapter);
+
+        companiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(Manage.this, CompanyDescription.class);
+                ParseObject userObj = pfobjectsList.get(position);
+                i.putExtra("companyName", userObj.getString("name"));
+                i.putExtra("userId", extras.getString("userID"));
+
+                startActivity(i);
             }
         });
 
