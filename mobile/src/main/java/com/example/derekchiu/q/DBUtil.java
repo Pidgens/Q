@@ -2,7 +2,6 @@ package com.example.derekchiu.q;
 
 import com.parse.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;
 
