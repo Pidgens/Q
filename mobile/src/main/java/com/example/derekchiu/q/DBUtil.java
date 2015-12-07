@@ -147,4 +147,10 @@ public class DBUtil {
         recruiter.saveInBackground();
     }
 
+    public static void getCompanies(final FindCallback callback) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Company");
+        query.orderByAscending("name");
+        query.findInBackground(callback);
+    }
+
 }

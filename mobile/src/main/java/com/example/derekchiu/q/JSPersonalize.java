@@ -146,17 +146,12 @@ public class JSPersonalize extends Activity implements
 
         public void run() {
             // Construct a DataRequest and send over the data layer
-            Log.v("myTag", "ayy");
 
             PutDataMapRequest putDMR = PutDataMapRequest.create(path);
-            Log.v("myTag", "ayy2");
 
             putDMR.getDataMap().putAll(dataMap);
-            Log.v("myTag", "ayy3");
             PutDataRequest request = putDMR.asPutDataRequest();
-            Log.v("myTag", "ayy4");
             DataApi.DataItemResult result = Wearable.DataApi.putDataItem(googleClient, request).await();
-            Log.v("myTag", "ayy5");
             if (result.getStatus().isSuccess()) {
                 Log.v("myTag", "DataMap: " + dataMap + " sent successfully to data layer ");
             }
