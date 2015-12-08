@@ -1,13 +1,12 @@
 package com.example.derekchiu.q;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import com.parse.ParseObject;
 
 import java.util.ArrayList;
 
@@ -38,6 +37,7 @@ public class CompanyQueueAdapter extends ArrayAdapter<DataItem> {
 
             if (companyView != null){
                 companyView.setText(i.getCompany());
+                companyView.setTextColor(Color.BLACK);
             }
             if (queueView != null){
                 queueView.setText(String.valueOf(i.getQueue()));

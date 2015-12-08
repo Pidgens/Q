@@ -5,52 +5,28 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name: "
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="70dp"
-        android:textSize="32dp"
-        android:layout_alignEnd="@+id/name"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:textStyle="bold" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/name"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:textSize="18dp"
-        android:hint="Your Name" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Company:"
         android:id="@+id/company"
-        android:layout_below="@+id/name"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp"
-        android:layout_alignParentEnd="true"
         android:textSize="32dp"
-        android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_below="@+id/textView15"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
-        android:layout_below="@+id/company"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:textSize="18dp"
-        android:hint="Company" />
+        android:hint="Your Company Name"
+        android:layout_alignTop="@+id/company"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/company"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,7 +39,9 @@
         android:layout_alignParentEnd="true"
         android:textSize="32dp"
         android:gravity="center"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -71,20 +49,26 @@
         android:id="@+id/cp_seek"
         android:layout_below="@+id/textView2"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:textSize="18dp"
-        android:hint="Product Manager" />
+        android:hint="Product Manager"
+        android:layout_toStartOf="@+id/button"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
+        android:background="@color/dark_blue"
+        android:textColor="@color/light_blue"
         android:id="@+id/nextButton"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="45dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:textSize="24dp" />
+        android:textSize="24dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -96,6 +80,17 @@
         android:textSize="20dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/button"
+        android:layout_below="@+id/textView2"
+        android:layout_alignEnd="@+id/textView15"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
 </RelativeLayout>
