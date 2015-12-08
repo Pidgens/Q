@@ -37,10 +37,17 @@ public class CompanyQueueAdapter extends ArrayAdapter<DataItem> {
 
             if (companyView != null){
                 companyView.setText(i.getCompany());
-                companyView.setTextColor(Color.BLACK);
+
             }
             if (queueView != null){
                 queueView.setText(String.valueOf(i.getQueue()));
+                if (Integer.valueOf(queueView.getText().toString()) > 15) {
+                    queueView.setTextColor(Color.RED);
+                } else if (Integer.valueOf(queueView.getText().toString()) > 7) {
+                    queueView.setTextColor(Color.parseColor("#ff9900"));
+                } else {
+                    queueView.setTextColor(Color.GREEN);
+                }
             }
 
         }

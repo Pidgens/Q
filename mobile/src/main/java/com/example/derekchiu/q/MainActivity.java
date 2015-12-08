@@ -3,7 +3,8 @@ package com.example.derekchiu.q;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,21 +37,25 @@ public class MainActivity extends AppCompatActivity {
         recruiter.setBackgroundColor(getResources().getColor(R.color.grey));
         job_seeker.setBackgroundColor(getResources().getColor(R.color.grey));
 
-        your_name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        your_name.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (v != null) {
-                    recruiter.setEnabled(true);
-                    job_seeker.setEnabled(true);
-                    recruiter.setBackgroundColor(getResources().getColor(R.color.dark_blue));
-                    job_seeker.setBackgroundColor(getResources().getColor(R.color.dark_blue));
-                    editted = true;
-                    return editted;
-                }
-                return editted;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
-            ;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                recruiter.setEnabled(true);
+                job_seeker.setEnabled(true);
+                recruiter.setBackgroundColor(getResources().getColor(R.color.dark_blue));
+                job_seeker.setBackgroundColor(getResources().getColor(R.color.dark_blue));
+                editted = true;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
         recruiter.setOnClickListener(new View.OnClickListener() {
             @Override
