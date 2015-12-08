@@ -21,11 +21,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText"
         android:textSize="18dp"
-        android:hint="Your Company Name"
+        android:hint="Company Name"
         android:layout_alignTop="@+id/company"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/company"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp" />
 
     <TextView

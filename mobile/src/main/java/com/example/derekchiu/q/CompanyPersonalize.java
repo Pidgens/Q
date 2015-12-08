@@ -66,11 +66,11 @@ public class CompanyPersonalize extends Activity implements
                 i.putExtra("user", extras.getString("user"));
 
 
-                EditText name = (EditText) findViewById(R.id.name);
+                String name = extras.getString("username");
                 EditText company = (EditText) findViewById(R.id.editText);
                 EditText seeking = (EditText) findViewById(R.id.cp_seek);
                 i.putExtra("company", company.getText().toString());
-                dbutil.saveRecruiter(androidId, name.getText().toString(), company.getText().toString(), seeking.getText().toString());
+                dbutil.saveRecruiter(androidId, name.toString(), company.getText().toString(), seeking.getText().toString());
 
                 DataMap notifyWearable = new DataMap();
                 notifyWearable.putInt("time", seconds);
