@@ -72,6 +72,7 @@ public class CompanyDescription extends Activity {
         Button addToQueue = (Button) findViewById(R.id.joinButton);
         addToQueue.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                //if(DBUtil.getNumOfQueues() < 5)
                 DBUtil.addSelfToQueue(extras.getString("Company"), android_id,  new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

@@ -3,6 +3,7 @@ package com.example.derekchiu.q;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,8 @@ import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by derekchiu on 11/30/15.
@@ -27,11 +30,13 @@ public class Manage extends Activity {
     ArrayList<ParseObject> pfobjectsList;
     ArrayAdapter listAdapter;
     Bundle extras;
+    final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.js_list);
+
 
         extras = getIntent().getExtras();
 
@@ -61,7 +66,42 @@ public class Manage extends Activity {
             }
         });
 
-        companiesListView.setAdapter(listAdapter);
+        //Timed refresh
+        Timer timer = new Timer();
+        TimerTask doAsynchronousTask = new TimerTask(){
+            @Override
+            public void run(){
+                handler.post(new Runnable(){
+                    public void run(){
+                        try{
+                            DBUtil.getCompanies(new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> queueList, ParseException e) {
+                                    if (e == null) {
+                                        companiesList.clear();
+                                        pfobjectsList.clear();
+                                        for (ParseObject object : queueList) {
+                                            companiesList.add(object.getString("name"));
+                                            pfobjectsList.add(object);
+                                        }
+                                        Log.d("okay", "Got " + queueList.size());
+
+                                        listAdapter.notifyDataSetChanged();
+                                    } else {
+                                        Log.d("pull queue", "Error: " + e.getMessage());
+                                    }
+                                }
+                            });
+
+                        } catch (Exception e){
+
+                        }
+                    }
+                });
+
+            }
+        };
+        timer.schedule(doAsynchronousTask,600000000); //should do asynchronous task every minute
+
 
         companiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
