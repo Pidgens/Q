@@ -48,7 +48,7 @@ public class Manage extends Activity {
 
         listAdapter = new CompanyQueueAdapter(this, android.R.layout.simple_list_item_1, companiesList);
         companiesListView.setAdapter(listAdapter);
-        companiesListView.setDividerHeight(5);
+        companiesListView.setDividerHeight(10);
 
         DBUtil.getCompanies(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> queueList, ParseException e) {
