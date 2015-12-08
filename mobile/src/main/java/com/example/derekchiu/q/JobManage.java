@@ -3,6 +3,7 @@ package com.example.derekchiu.q;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +19,8 @@ import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by derekchiu on 11/30/15.
@@ -32,6 +35,7 @@ public class JobManage extends Activity {
     ArrayAdapter listAdapter;
     ArrayList<String> jobseekersList;
     ArrayList<ParseObject> pfobjectsList;
+    final Handler handler = new Handler();
 
 
     @Override
@@ -73,6 +77,41 @@ public class JobManage extends Activity {
         listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, jobseekersList);
         lv2 = (ListView) findViewById(R.id.lvJSList);
         lv2.setAdapter(listAdapter);
+
+        Timer timer = new Timer();
+        TimerTask doAsynchronousTask = new TimerTask(){
+            @Override
+            public void run(){
+                handler.post(new Runnable(){
+                    public void run(){
+                        try{
+                            DBUtil.getQueue(extras.getString("company"), new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> queueList, ParseException e) {
+                                    if (e == null) {
+                                        jobseekersList.clear();
+                                        pfobjectsList.clear();
+                                        for (ParseObject object : queueList) {
+                                            jobseekersList.add(object.getString("name"));
+                                            pfobjectsList.add(object);
+                                        }
+                                        Log.d("okay", "Got " + queueList.size());
+
+                                        listAdapter.notifyDataSetChanged();
+                                    } else {
+                                        Log.d("pull queue", "Error: " + e.getMessage());
+                                    }
+                                }
+                            });
+
+                        } catch (Exception e){
+
+                        }
+                    }
+                });
+
+            }
+        };
+        timer.schedule(doAsynchronousTask, 600000000); //should do asynchronous task every minute
 
         lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
