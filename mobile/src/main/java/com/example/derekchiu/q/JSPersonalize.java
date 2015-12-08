@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -36,10 +39,12 @@ public class JSPersonalize extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     String androidId;
+    RelativeLayout jsp_layout;
     AutoCompleteTextView school;
     AutoCompleteTextView major;
     AutoCompleteTextView positions;
     Button nextButton;
+    Button addPos;
     String WEARABLE_JS_PATH = "/wearable_js";
     GoogleApiClient googleClient;
     String begin_welcome_msg = "Welcome ";
@@ -70,7 +75,21 @@ public class JSPersonalize extends Activity implements
         String username = name.get("user").toString();
         String full_string = begin_welcome_msg + username + end_welcome_msg;
         welcomeTv.setText(full_string);
+        welcomeTv.setTextColor(getResources().getColor(R.color.black));
         //dbutil.saveUser();
+
+        jsp_layout = (RelativeLayout) findViewById(R.id.jsp_layout);
+        addPos = (Button) findViewById(R.id.add_position);
+        final EditText newEdit = new EditText(this);
+        addPos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(10,200,0,0);
+                newEdit.setLayoutParams(lp);
+                jsp_layout.addView(newEdit);
+            }
+        });
 
         googleClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
@@ -80,6 +99,8 @@ public class JSPersonalize extends Activity implements
         googleClient.connect();
 
         nextButton = (Button) findViewById(R.id.jsNext);
+        nextButton.setBackgroundColor(getResources().getColor(R.color.dark_blue));
+        nextButton.setTextColor(getResources().getColor(R.color.light_blue));
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
