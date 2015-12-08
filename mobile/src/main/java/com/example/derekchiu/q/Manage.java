@@ -143,6 +143,14 @@ public class Manage extends Activity {
                 i.putExtra("LogoURL", companyObj.getString("logoURL"));
                 i.putExtra("Company", companyObj.getString("name"));
 
+                String positionsString = "";
+                List positions = companyObj.getList("positionsAvailable");
+                for (Object s : positions) {
+                    positionsString += s.toString() + ",";
+                }
+
+                i.putExtra("PositionsAvailable", positionsString);
+
                 startActivity(i);
             }
         });

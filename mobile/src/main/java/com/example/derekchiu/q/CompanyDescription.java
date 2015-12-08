@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.provider.Settings;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import java.net.URL;
 import android.graphics.BitmapFactory;
@@ -16,6 +18,7 @@ import android.view.View;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 import android.widget.Toast;
+import java.util.List;
 
 
 import com.parse.ParseException;
@@ -82,5 +85,11 @@ public class CompanyDescription extends Activity {
                 });
             }
         });
+
+        Log.d("posi", extras.getString("PositionsAvailable"));
+        String[] positionsAvailable = extras.getString("PositionsAvailable").split(",");
+        ArrayAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, positionsAvailable);
+        ListView positionsListView = (ListView) findViewById(R.id.positionsAvailableListView);
+        positionsListView.setAdapter(listAdapter);
     }
 }
