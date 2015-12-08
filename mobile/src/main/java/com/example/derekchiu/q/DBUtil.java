@@ -42,6 +42,7 @@ public class DBUtil {
                     });
                 } else {
                     Log.d("place", "Can't add self because I already exist");
+                    callback.done(null);
                 }
 
             }
@@ -145,6 +146,12 @@ public class DBUtil {
         acl.setPublicWriteAccess(true);
         recruiter.setACL(acl);
         recruiter.saveInBackground();
+    }
+
+    public static void getCompanies(final FindCallback callback) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Company");
+        query.orderByAscending("name");
+        query.findInBackground(callback);
     }
 
 }

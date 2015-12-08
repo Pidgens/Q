@@ -3,11 +3,15 @@ package com.example.derekchiu.q;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -34,11 +38,13 @@ import java.util.Calendar;
 public class JSPersonalize extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-
+    String androidId;
+    RelativeLayout jsp_layout;
     AutoCompleteTextView school;
     AutoCompleteTextView major;
     AutoCompleteTextView positions;
     Button nextButton;
+    Button addPos;
     String WEARABLE_JS_PATH = "/wearable_js";
     GoogleApiClient googleClient;
     String begin_welcome_msg = "Welcome ";
@@ -60,12 +66,30 @@ public class JSPersonalize extends Activity implements
         major.setAdapter(majorAdapter);
         positions = (AutoCompleteTextView) findViewById(R.id.position);
 
+        androidId = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
         String school_string = school.getText().toString();
         String major_string = major.getText().toString();
         Bundle name = getIntent().getExtras();
         String username = name.get("user").toString();
         String full_string = begin_welcome_msg + username + end_welcome_msg;
         welcomeTv.setText(full_string);
+        welcomeTv.setTextColor(getResources().getColor(R.color.black));
+        //dbutil.saveUser();
+
+        jsp_layout = (RelativeLayout) findViewById(R.id.jsp_layout);
+        addPos = (Button) findViewById(R.id.add_position);
+        final EditText newEdit = new EditText(this);
+        addPos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(10,200,0,0);
+                newEdit.setLayoutParams(lp);
+                jsp_layout.addView(newEdit);
+            }
+        });
 
         googleClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
@@ -75,12 +99,15 @@ public class JSPersonalize extends Activity implements
         googleClient.connect();
 
         nextButton = (Button) findViewById(R.id.jsNext);
+        nextButton.setBackgroundColor(getResources().getColor(R.color.dark_blue));
+        nextButton.setTextColor(getResources().getColor(R.color.light_blue));
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar c = Calendar.getInstance();
                 int seconds = c.get(Calendar.SECOND);
                 Intent i = new Intent(JSPersonalize.this, Manage.class);
+                i.putExtra("userId", androidId);
                 DataMap notifyWearable = new DataMap();
                 notifyWearable.putInt("time", seconds);
                 new SendToDataLayerThread(WEARABLE_JS_PATH, notifyWearable).start();
@@ -146,17 +173,12 @@ public class JSPersonalize extends Activity implements
 
         public void run() {
             // Construct a DataRequest and send over the data layer
-            Log.v("myTag", "ayy");
 
             PutDataMapRequest putDMR = PutDataMapRequest.create(path);
-            Log.v("myTag", "ayy2");
 
             putDMR.getDataMap().putAll(dataMap);
-            Log.v("myTag", "ayy3");
             PutDataRequest request = putDMR.asPutDataRequest();
-            Log.v("myTag", "ayy4");
             DataApi.DataItemResult result = Wearable.DataApi.putDataItem(googleClient, request).await();
-            Log.v("myTag", "ayy5");
             if (result.getStatus().isSuccess()) {
                 Log.v("myTag", "DataMap: " + dataMap + " sent successfully to data layer ");
             }
