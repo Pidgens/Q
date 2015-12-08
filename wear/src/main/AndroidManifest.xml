@@ -24,9 +24,8 @@
 
         <activity android:name=".PeopleNamesActivity"/>
         <activity android:name=".QueueActivity"/>
-        <activity android:name=".DropActivity"/>
-        <activity android:name=".BumpActivity"/>
         <activity android:name=".TimerActivity"/>
+        <activity android:name=".FeedbackActivity"/>
         <activity android:name=".PeopleNamesCountdownActivity"/>
         <activity android:name=".DismissCountdownActivity"/>
         <service
