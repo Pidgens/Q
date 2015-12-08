@@ -1,15 +1,15 @@
 package com.example.derekchiu.q;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,7 +27,6 @@ import java.util.TimerTask;
  */
 public class JobManage extends Activity {
 
-    ImageView company_descrip;
     ListView lv2;
     TextView queueLength;
     TextView title;
@@ -48,16 +47,17 @@ public class JobManage extends Activity {
         jobseekersList = new ArrayList<String>();
         pfobjectsList = new ArrayList<ParseObject>();
 
-        title = (TextView) findViewById(R.id.textView18);
-        title.setText("Queue For " + extras.getString("company"));
+
 
         DBUtil.getQueue(extras.getString("company"), new FindCallback<ParseObject>() {
             public void done(List<ParseObject> queueList, ParseException e) {
                 if (e == null) {
                     jobseekersList.clear();
                     pfobjectsList.clear();
+                    int i = 0;
                     for (ParseObject object : queueList) {
-                        jobseekersList.add(object.getString("name"));
+                        i++;
+                        jobseekersList.add("(" + String.valueOf(i) + ") " + object.getString("name"));
                         pfobjectsList.add(object);
                     }
                     Log.d("okay", "Got " + queueList.size());
@@ -66,17 +66,26 @@ public class JobManage extends Activity {
                 } else {
                     Log.d("pull queue", "Error: " + e.getMessage());
                 }
+                title = (TextView) findViewById(R.id.textView18);
+                title.setText(extras.getString("company") + "(" + String.valueOf(queueList.size()) + ")");
+                title.setTextColor(getResources().getColor(R.color.black));
+
             }
         });
 
-        queueLength = (TextView) findViewById(R.id.textView19);
-
-        queueLength.setText("Queue Size: " + jobseekersList.size());
 
 
-        listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, jobseekersList);
+
+
+        TextView person = (TextView) findViewById(R.id.person);
+        listAdapter = new ArrayAdapter<String>(this, R.layout.people, jobseekersList);
+        LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater.inflate(R.layout.people, null);
+
+
         lv2 = (ListView) findViewById(R.id.lvJSList);
         lv2.setAdapter(listAdapter);
+        lv2.setDividerHeight(10);
 
         Timer timer = new Timer();
         TimerTask doAsynchronousTask = new TimerTask(){
