@@ -40,7 +40,7 @@ public class CompanyQueueAdapter extends ArrayAdapter<DataItem> {
                 companyView.setText(i.getCompany());
             }
             if (queueView != null){
-                queueView.setText(i.getQueue());
+                queueView.setText(String.valueOf(i.getQueue()));
             }
 
         }

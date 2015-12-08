@@ -57,7 +57,7 @@ public class Manage extends Activity {
                     companiesList.clear();
                     pfobjectsList.clear();
                     for (ParseObject object : queueList) {
-                        DBUtil.getQueue(extras.getString("company"), new FindCallback<ParseObject>() {
+                        DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
                             public void done(List<ParseObject> queueList, ParseException e) {
                                 if (e == null) {
                                     jobseekersList.clear();
