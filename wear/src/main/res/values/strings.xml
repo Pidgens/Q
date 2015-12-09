@@ -5,4 +5,5 @@
     <string name="title">Hello Notification!</string>
     <string name="notification_posted">Notification posted</string>
     <string name="debug_tag">THIS IS MY DEBUG TAG</string>
+    <string name="noshow_message">Failed to show up. Click to continue on to the next person.</string>
 </resources>

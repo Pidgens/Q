@@ -32,7 +32,7 @@ public class ChooseFlowActivity extends Activity {
                         WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.MATCH_PARENT));
         view.setText("Choose a start.\n For Recruiters Long Click." +
-                "\n For Students Click.");
+                "\n For Job Seeker Click.");
         view.setGravity(Gravity.CENTER);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
