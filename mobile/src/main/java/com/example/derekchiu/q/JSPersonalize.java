@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 
@@ -51,16 +52,52 @@ public class JSPersonalize extends Activity {
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.js_personalize);
-
+        nextButton = (Button) findViewById(R.id.jsNext);
         welcomeTv = (TextView) findViewById(R.id.welcome);
         school = (AutoCompleteTextView) findViewById(R.id.school);
-        ArrayAdapter<String> schoolAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, SCHOOLS);
+        final ArrayAdapter<String> schoolAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, SCHOOLS);
         school.setAdapter(schoolAdapter);
         major = (AutoCompleteTextView) findViewById(R.id.major);
         String[] majors = readCSV();
         ArrayAdapter<String> majorAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, majors);
         major.setAdapter(majorAdapter);
         positions = (AutoCompleteTextView) findViewById(R.id.position);
+
+        major.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                major.showDropDown();
+            }
+        });
+
+        school.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                school.showDropDown();
+            }
+        });
+
+        school.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (Arrays.asList(SCHOOLS).contains(s.toString())) {
+                    nextButton.setEnabled(true);
+                    nextButton.setBackgroundColor(getResources().getColor(R.color.dark_blue));
+                }
+            }
+        });
+
+
 
         androidId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -74,16 +111,23 @@ public class JSPersonalize extends Activity {
         welcomeTv.setTextColor(getResources().getColor(R.color.black));
         //dbutil.saveUser();
 
-        jsp_layout = (RelativeLayout) findViewById(R.id.jsp_layout);
-        addPos = (Button) findViewById(R.id.add_position);
-        final EditText newEdit = new EditText(this);
-        addPos.setOnClickListener(new View.OnClickListener() {
+        final AutoCompleteTextView js_seek2 = (AutoCompleteTextView) findViewById(R.id.js_seek2);
+        final AutoCompleteTextView js_seek3 = (AutoCompleteTextView) findViewById(R.id.js_seek3);
+        final Button addText1 = (Button) findViewById(R.id.js_addText);
+        final Button addText2 = (Button) findViewById(R.id.js_addText2);
+        addText1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(10,200,0,0);
-                newEdit.setLayoutParams(lp);
-                jsp_layout.addView(newEdit);
+                js_seek2.setVisibility(View.VISIBLE);
+                addText2.setVisibility(View.VISIBLE);
+                addText1.setVisibility(View.INVISIBLE);
+            }
+        });
+        addText2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                js_seek3.setVisibility(View.VISIBLE);
+                addText2.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -98,6 +142,8 @@ public class JSPersonalize extends Activity {
                 startActivity(i);
             }
         });
+
+
     }
 
     private static final String[] SCHOOLS = new String[] {
