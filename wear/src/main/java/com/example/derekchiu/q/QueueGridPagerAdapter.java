@@ -166,8 +166,7 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
                 feedback.putExtra(FeedbackActivity.FEEDBACK_TYPE, FeedbackActivity.DROP);
                 feedback.putExtra(FeedbackActivity.COMPANY,
                         CompanyPlaceList.getList().get(i).getName());
-                CompanyPlaceList.getList().remove(i);
-                QueueGridPagerAdapter.this.notifyDataSetChanged();
+                MobileConnector.dropCompany(CompanyPlaceList.getList().get(i).getName());
                 context.startActivity(feedback);
             }
         });
@@ -181,12 +180,11 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CompanyPlaceList.getList().get(i).bumpQueue();
-                QueueGridPagerAdapter.this.notifyDataSetChanged();
                 Intent feedback = new Intent(context, FeedbackActivity.class);
                 feedback.putExtra(FeedbackActivity.FEEDBACK_TYPE, FeedbackActivity.BUMP);
                 feedback.putExtra(FeedbackActivity.COMPANY,
                         CompanyPlaceList.getList().get(i).getName());
+                MobileConnector.bumpCompany(CompanyPlaceList.getList().get(i).getName());
                 context.startActivity(feedback);
             }
         });

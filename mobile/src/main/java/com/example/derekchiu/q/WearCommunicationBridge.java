@@ -13,9 +13,11 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ public class WearCommunicationBridge extends WearableListenerService {
     private static final String WEARABLE_QUEUED_PATH = "/wearable_queued_path";
     private static final String DATA_PLACE_ARRAY = "/place_update_array";
     public static final String MOBILE_GET_UPDATE = "/get_update";
+    public static final String MOBILE_DROP = "/mobile_drop";
+    public static final String MOBILE_BUMP = "/mobile_bump";
 
     private static void init(Context context) {
         if (googleClient == null) {
@@ -51,10 +55,20 @@ public class WearCommunicationBridge extends WearableListenerService {
         for (DataEvent event : dataEvents) {
             String path = event.getDataItem().getUri().getPath();
             dataMap = DataMapItem.fromDataItem(event.getDataItem()).getDataMap();
-            if (path.equals(MOBILE_GET_UPDATE)){
+            if (path.equals(MOBILE_GET_UPDATE)) {
                 Log.d("WearConnection", "MOBILE_GET_UPDATE");
                 Log.d("WearConnection", android_id);
                 updateQueue(null, android_id);
+            } else if (path.equals(MOBILE_BUMP)) {
+                Log.d("WearConnection", "MOBILE_BUMP");
+                String company = dataMap.getString("company");
+                Log.d("WearConnection", company);
+                DBUtil.bumpBackInQueue(company, android_id, null);
+            } else if (path.equals(MOBILE_DROP)) {
+                Log.d("WearConnection", "MOBILE_DROP");
+                String company = dataMap.getString("company");
+                Log.d("WearConnection", company);
+                DBUtil.removeSelfFromQueue(company, android_id, null);
             }
         }
     }

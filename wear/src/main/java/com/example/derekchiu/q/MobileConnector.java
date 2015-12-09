@@ -30,6 +30,8 @@ public class MobileConnector extends WearableListenerService {
     String WEARABLE_COMPANY_PATH = "/wearable_company";
     String WEARABLE_JS_PATH = "/wearable_js";
     public static final String MOBILE_GET_UPDATE = "/get_update";
+    public static final String MOBILE_DROP = "/mobile_drop";
+    public static final String MOBILE_BUMP = "/mobile_bump";
 
 
     private static GoogleApiClient googleClient;
@@ -94,6 +96,19 @@ public class MobileConnector extends WearableListenerService {
         new SendToDataLayerThread(MOBILE_GET_UPDATE, notifyWearable).start();
     }
 
+    public static void dropCompany(String company) {
+        DataMap notifyWearable = new DataMap();
+        notifyWearable.putLong("time", System.currentTimeMillis());
+        notifyWearable.putString("company", company);
+        new SendToDataLayerThread(MOBILE_DROP, notifyWearable).start();
+    }
+
+    public static void bumpCompany(String company) {
+        DataMap notifyWearable = new DataMap();
+        notifyWearable.putLong("time", System.currentTimeMillis());
+        notifyWearable.putString("company", company);
+        new SendToDataLayerThread(MOBILE_BUMP, notifyWearable).start();
+    }
 
     private static class SendToDataLayerThread extends Thread {
         String path;
