@@ -18,6 +18,8 @@ public class FailedToArriveActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.failed_to_arrive_activity);
+        Intent in = getIntent();
+        String name = in.getStringExtra("next_name");
         mImageView = (ImageView) findViewById(R.id.imageView3);
         mImageView.setImageResource(R.drawable.black_watch_background);
         mTextView = (TextView) findViewById(R.id.textView4);
@@ -27,6 +29,7 @@ public class FailedToArriveActivity extends Activity {
             public void onClick(View v) {
                 // Perform action on click
                 Intent i = new Intent(FailedToArriveActivity.this, PeopleNamesActivity.class);
+                i.putExtra("next_name", "Roy Kim");
                 startActivity(i);
             }
         });

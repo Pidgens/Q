@@ -34,7 +34,7 @@ public class PeopleNamesCountdownActivity extends Activity {
         mTextView.setText(name);
         mTextView.setTextColor(Color.BLACK);
         mTextView.setTypeface(null, Typeface.BOLD);
-        Timer t = new Timer();
+        final Timer t = new Timer();
         //Set the schedule function and rate
         t.scheduleAtFixedRate(new TimerTask() {
 
@@ -52,6 +52,7 @@ public class PeopleNamesCountdownActivity extends Activity {
                         } else {
                             Intent in = new Intent(PeopleNamesCountdownActivity.this, FailedToArriveActivity.class);
                             in.putExtra("next_name", "Roy Kim");
+                            t.cancel();
                             startActivity(in);
                         }
 
@@ -67,6 +68,7 @@ public class PeopleNamesCountdownActivity extends Activity {
                 // Perform action on click
                 Intent in2 = new Intent(PeopleNamesCountdownActivity.this, PeopleNamesActivity.class);
                 in2.putExtra("next_name", "Roy Kim");
+                t.cancel();
                 startActivity(in2);
             }
         });
