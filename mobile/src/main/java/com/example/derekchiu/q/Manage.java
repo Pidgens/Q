@@ -26,7 +26,6 @@ public class Manage extends Activity {
     ListView companiesListView;
     ArrayList<DataItem> companiesList;
     ArrayList<ParseObject> pfobjectsList;
-    ArrayList<String> jobseekersList;
     CompanyQueueAdapter listAdapter;
     Bundle extras;
     final Handler handler = new Handler();
@@ -43,7 +42,6 @@ public class Manage extends Activity {
         companiesListView = (ListView) findViewById(R.id.companiesListView);
 
         companiesList = new ArrayList<DataItem>();
-        jobseekersList = new ArrayList<String>();
         pfobjectsList = new ArrayList<ParseObject>();
 
         listAdapter = new CompanyQueueAdapter(this, android.R.layout.simple_list_item_1, companiesList);
@@ -55,24 +53,20 @@ public class Manage extends Activity {
                 if (e == null) {
                     companiesList.clear();
                     pfobjectsList.clear();
-                    for (ParseObject object : queueList) {
+                    for (final ParseObject object : queueList) {
                         DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
                             public void done(List<ParseObject> queueList, ParseException e) {
                                 if (e == null) {
-                                    jobseekersList.clear();
-                                    for (ParseObject object : queueList) {
-                                        jobseekersList.add(object.getString("name"));
-                                    }
-                                    size = jobseekersList.size();
+
+                                    companiesList.add(new DataItem(object.getString("name"), queueList.size()));
+                                    pfobjectsList.add(object);
                                     Log.d("okay", "Got " + queueList.size());
                                 } else {
                                     Log.d("pull queue", "Error: " + e.getMessage());
-                                    size=0;
+                                    size = 0;
                                 }
                             }
                         });
-                        companiesList.add(new DataItem(object.getString("name"), object.getInt("queueSize")));
-                        pfobjectsList.add(object);
                     }
                     Log.d("okay", "Got " + queueList.size());
 
@@ -96,22 +90,20 @@ public class Manage extends Activity {
                                     if (e == null) {
                                         companiesList.clear();
                                         pfobjectsList.clear();
-                                        for (ParseObject object : queueList) {
+                                        for (final ParseObject object : queueList) {
                                             DBUtil.getQueue(extras.getString("company"), new FindCallback<ParseObject>() {
                                                 public void done(List<ParseObject> queueList, ParseException e) {
                                                     if (e == null) {
-                                                        jobseekersList.clear();
-                                                        for (ParseObject object : queueList) {
-                                                            jobseekersList.add(object.getString("name"));
-                                                        }
+
+                                                        companiesList.add(new DataItem(object.getString("name"), queueList.size()));
+                                                        pfobjectsList.add(object);
                                                         Log.d("okay", "Got " + queueList.size());
                                                     } else {
                                                         Log.d("pull queue", "Error: " + e.getMessage());
                                                     }
                                                 }
                                             });
-                                            companiesList.add(new DataItem(object.getString("name"), jobseekersList.size()));
-                                            pfobjectsList.add(object);
+
                                         }
                                         Log.d("okay", "Got " + queueList.size());
 
