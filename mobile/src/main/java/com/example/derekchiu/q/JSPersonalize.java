@@ -95,8 +95,8 @@ public class JSPersonalize extends Activity {
         androidId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-        String school_string = school.getText().toString();
-        String major_string = major.getText().toString();
+        final String school_string = school.getText().toString();
+        final String major_string = major.getText().toString();
         Bundle name = getIntent().getExtras();
         final String username = name.get("user").toString();
         String full_string = begin_welcome_msg + username + end_welcome_msg;
@@ -129,6 +129,7 @@ public class JSPersonalize extends Activity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DBUtil.saveUser(androidId, "", username, school.getText().toString(), major.getText().toString());
                 Intent i = new Intent(JSPersonalize.this, Manage.class);
                 i.putExtra("Name", username);
                 WearCommunicationBridge.startJSWearable(JSPersonalize.this, androidId);

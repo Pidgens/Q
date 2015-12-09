@@ -240,4 +240,18 @@ public class DBUtil {
         });
     }
 
+    public static void saveUser(String userID, String position, String name, String school, String major) {
+        ParseObject user = new ParseObject("QUser");
+        user.put("userID", userID);
+        user.put("position", position);
+        user.put("name", name);
+        user.put("school", school);
+        user.put("major", major);
+        ParseACL acl = new ParseACL();
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(true);
+        user.setACL(acl);
+        user.saveInBackground();
+    }
+
 }
