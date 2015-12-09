@@ -22,7 +22,7 @@ public class EnterQueue extends Activity {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.cp_description);
 
-        lv = (ListView) findViewById(R.id.listView);
+        lv = (ListView) findViewById(R.id.positionsAvailableListView);
         joinButton = (Button) findViewById(R.id.joinButton);
 
         ArrayList<String> companies =  new ArrayList<String>();

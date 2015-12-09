@@ -1,26 +1,23 @@
 package com.example.derekchiu.q;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-import android.provider.Settings;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import java.net.URL;
-import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-
-import com.parse.ParseException;
-import com.parse.SaveCallback;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.SaveCallback;
+
+import java.net.URL;
 
 /**
  * Created by derekchiu on 12/1/15.
@@ -69,7 +66,7 @@ public class CompanyDescription extends Activity {
         };
         thread.start();
 
-        Button addToQueue = (Button) findViewById(R.id.joinButton);
+        final Button addToQueue = (Button) findViewById(R.id.joinButton);
         addToQueue.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //if(DBUtil.getNumOfQueues() < 5)
@@ -78,9 +75,16 @@ public class CompanyDescription extends Activity {
                     public void done(ParseException e) {
                         Toast.makeText(getApplicationContext(), "Added to queue",
                                 Toast.LENGTH_SHORT).show();
+                        addToQueue.setText("Entered Queue");
                     }
                 });
             }
         });
+
+        Log.d("posi", extras.getString("PositionsAvailable"));
+        String[] positionsAvailable = extras.getString("PositionsAvailable").split(",");
+        ArrayAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, positionsAvailable);
+        ListView positionsListView = (ListView) findViewById(R.id.positionsAvailableListView);
+        positionsListView.setAdapter(listAdapter);
     }
 }

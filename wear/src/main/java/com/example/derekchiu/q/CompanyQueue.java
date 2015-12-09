@@ -34,8 +34,8 @@ public class CompanyQueue {
         if (mockdata == null) {
             mockdata = new ArrayList<CompanyQueue>();
             mockdata.add(new CompanyQueue("Walmart", 14));
-            mockdata.add(new CompanyQueue("Disney", 23));
-            mockdata.add(new CompanyQueue("Goldman Sachs", 30));
+            mockdata.add(new CompanyQueue("Disney", 30));
+            mockdata.add(new CompanyQueue("Goldman Sachs", 4));
         }
         return mockdata;
     }

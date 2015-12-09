@@ -7,8 +7,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
@@ -50,6 +48,7 @@ public class Manage extends Activity {
 
         listAdapter = new CompanyQueueAdapter(this, android.R.layout.simple_list_item_1, companiesList);
         companiesListView.setAdapter(listAdapter);
+        companiesListView.setDividerHeight(10);
 
         DBUtil.getCompanies(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> queueList, ParseException e) {
@@ -72,7 +71,7 @@ public class Manage extends Activity {
                                 }
                             }
                         });
-                        companiesList.add(new DataItem(object.getString("name"), size));
+                        companiesList.add(new DataItem(object.getString("name"), object.getInt("queueSize")));
                         pfobjectsList.add(object);
                     }
                     Log.d("okay", "Got " + queueList.size());
@@ -142,6 +141,14 @@ public class Manage extends Activity {
                 i.putExtra("Description", companyObj.getString("description"));
                 i.putExtra("LogoURL", companyObj.getString("logoURL"));
                 i.putExtra("Company", companyObj.getString("name"));
+
+                String positionsString = "";
+                List positions = companyObj.getList("positionsAvailable");
+                for (Object s : positions) {
+                    positionsString += s.toString() + ",";
+                }
+
+                i.putExtra("PositionsAvailable", positionsString);
 
                 startActivity(i);
             }
