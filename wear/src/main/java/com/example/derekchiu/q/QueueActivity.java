@@ -31,7 +31,8 @@ public class QueueActivity extends Activity {
             setContentView(getMainView());
         } else {
             pager = (GridViewPager) findViewById(R.id.pager);
-            pager.setAdapter(new QueueGridPagerAdapter(this, getFragmentManager()));
+
+            pager.setAdapter(QueueGridPagerAdapter.getInstance(this, getFragmentManager()));
         }
     }
 

@@ -1,9 +1,17 @@
 package com.example.derekchiu.q;
 
-import com.parse.*;
+import android.util.Log;
+
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseACL;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.util.List;
-import android.util.Log;
 
 
 /**
@@ -198,6 +206,12 @@ public class DBUtil {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("QueuePlace");
         query.whereEqualTo("userID", myId);
         query.findInBackground(callback);
+    }
+
+    public static void getPositionsAvailable(String company, final GetCallback callback) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Company");
+        query.whereEqualTo("name", company);
+        query.getFirstInBackground(callback);
     }
     
     public static void getRidOfFirstPersonInQueue(String company) {

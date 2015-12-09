@@ -52,10 +52,12 @@ public class WearCommunicationBridge {
             public void done(List<ParseObject> objects, ParseException e) {
                 ArrayList<String> list = new ArrayList<String>();
                 for (ParseObject object: objects) {
+                    Log.d("WearCommunicationBridge", object.getString("company"));
+                    Log.d("WearCommunicationBridge", Integer.toString(object.getInt("place")));
                     list.add(object.getString("company") + object.getInt("place"));
                 }
                 DataMap map = new DataMap();
-                map.putStringArray(DATA_PLACE_ARRAY, (String[]) list.toArray());
+                map.putStringArrayList(DATA_PLACE_ARRAY, list);
                 new SendToDataLayerThread(WEARABLE_QUEUED_PATH, map).start();
             }
         });
