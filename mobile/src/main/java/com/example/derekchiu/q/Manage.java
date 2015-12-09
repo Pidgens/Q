@@ -66,8 +66,13 @@ public class Manage extends Activity {
                                     Log.d("pull queue", "Error: " + e.getMessage());
                                     size = 0;
                                 }
+                                companiesList.add(new DataItem(temp, size));
+                                listAdapter.notifyDataSetChanged();
+                                Log.d("found list item", "Got " + temp + " and " + size);
                             }
                         });
+
+                        pfobjectsList.add(object);
                     }
                     Log.d("okay", "Got " + queueList.size());
 
@@ -85,24 +90,33 @@ public class Manage extends Activity {
                 handler.post(new Runnable(){
                     public void run(){
                         try{
+                            System.out.println("Timing working");
+                            companiesList = new ArrayList<DataItem>();
+                            jobseekersList = new ArrayList<String>();
+                            pfobjectsList = new ArrayList<ParseObject>();
                             DBUtil.getCompanies(new FindCallback<ParseObject>() {
                                 public void done(List<ParseObject> queueList, ParseException e) {
                                     if (e == null) {
                                         companiesList.clear();
                                         pfobjectsList.clear();
-                                        for (final ParseObject object : queueList) {
-                                            DBUtil.getQueue(extras.getString("company"), new FindCallback<ParseObject>() {
+                                        for (ParseObject object : queueList) {
+                                            final String temp = object.getString("name");
+                                            DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
                                                 public void done(List<ParseObject> queueList, ParseException e) {
                                                     if (e == null) {
-
-                                                        companiesList.add(new DataItem(object.getString("name"), queueList.size()));
-                                                        pfobjectsList.add(object);
-                                                        listAdapter.notifyDataSetChanged();
-
+                                                        jobseekersList.clear();
+                                                        for (ParseObject object : queueList) {
+                                                            jobseekersList.add(object.getString("name"));
+                                                        }
+                                                        size = queueList.size();
                                                         Log.d("okay", "Got " + queueList.size());
                                                     } else {
                                                         Log.d("pull queue", "Error: " + e.getMessage());
+                                                        size = 0;
                                                     }
+                                                    companiesList.add(new DataItem(temp, size));
+                                                    listAdapter.notifyDataSetChanged();
+                                                    Log.d("found list item", "Got " + temp + " and " + size);
                                                 }
                                             });
 
@@ -123,7 +137,7 @@ public class Manage extends Activity {
 
             }
         };
-        timer.schedule(doAsynchronousTask, 600000000); //should do asynchronous task every minute
+        timer.schedule(doAsynchronousTask, 30000, 30000); //should do asynchronous task every minute
 
 
         companiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -148,4 +162,107 @@ public class Manage extends Activity {
         });
 
     }
+
+    /*public void onResume() {
+        super.onResume();
+        System.out.println("On Resume");
+        companiesList = new ArrayList<DataItem>();
+        jobseekersList = new ArrayList<String>();
+        pfobjectsList = new ArrayList<ParseObject>();
+        companiesList = new ArrayList<DataItem>();
+        jobseekersList = new ArrayList<String>();
+        pfobjectsList = new ArrayList<ParseObject>();
+        DBUtil.getCompanies(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> queueList, ParseException e) {
+                if (e == null) {
+                    companiesList.clear();
+                    pfobjectsList.clear();
+                    for (ParseObject object : queueList) {
+                        final String temp = object.getString("name");
+                        DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
+                            public void done(List<ParseObject> queueList, ParseException e) {
+                                if (e == null) {
+                                    jobseekersList.clear();
+                                    for (ParseObject object : queueList) {
+                                        jobseekersList.add(object.getString("name"));
+                                    }
+                                    size = queueList.size();
+                                    Log.d("okay", "Got " + queueList.size());
+                                } else {
+                                    Log.d("pull queue", "Error: " + e.getMessage());
+                                    size = 0;
+                                }
+                                companiesList.add(new DataItem(temp, size));
+                                Log.d("found list item", "Got " + temp + " and " + size);
+                            }
+                        });
+
+                        pfobjectsList.add(object);
+                    }
+                    Log.d("okay", "Got " + queueList.size());
+
+                    listAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d("pull queue", "Error: " + e.getMessage());
+                }
+            }
+        });
+
+        Timer timer = new Timer();
+        TimerTask doAsynchronousTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {
+                            System.out.println("Timing working");
+                            companiesList = new ArrayList<DataItem>();
+                            jobseekersList = new ArrayList<String>();
+                            pfobjectsList = new ArrayList<ParseObject>();
+                            DBUtil.getCompanies(new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> queueList, ParseException e) {
+                                    if (e == null) {
+                                        companiesList.clear();
+                                        pfobjectsList.clear();
+                                        for (ParseObject object : queueList) {
+                                            final String temp = object.getString("name");
+                                            DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
+                                                public void done(List<ParseObject> queueList, ParseException e) {
+                                                    if (e == null) {
+                                                        jobseekersList.clear();
+                                                        for (ParseObject object : queueList) {
+                                                            jobseekersList.add(object.getString("name"));
+                                                        }
+                                                        size = queueList.size();
+                                                        Log.d("okay", "Got " + queueList.size());
+                                                    } else {
+                                                        Log.d("pull queue", "Error: " + e.getMessage());
+                                                        size = 0;
+                                                    }
+                                                    companiesList.add(new DataItem(temp, size));
+                                                    Log.d("found list item", "Got " + temp + " and " + size);
+                                                }
+                                            });
+
+                                            pfobjectsList.add(object);
+                                        }
+                                        Log.d("okay", "Got " + queueList.size());
+
+                                        listAdapter.notifyDataSetChanged();
+                                    } else {
+                                        Log.d("pull queue", "Error: " + e.getMessage());
+                                    }
+                                }
+                            });
+
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+            }
+        };
+        timer.schedule(doAsynchronousTask, 30000);
+    }*/
 }

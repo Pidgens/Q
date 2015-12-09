@@ -120,7 +120,7 @@ public class JobManage extends Activity {
 
             }
         };
-        timer.schedule(doAsynchronousTask, 600000000); //should do asynchronous task every minute
+        timer.schedule(doAsynchronousTask, 30000, 30000); //should do asynchronous task every minute
 
         lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
