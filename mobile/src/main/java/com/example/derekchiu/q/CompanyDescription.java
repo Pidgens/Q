@@ -14,10 +14,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by derekchiu on 12/1/15.
@@ -30,6 +33,7 @@ public class CompanyDescription extends Activity {
     Bundle extras;
     Button nextButton;
     String android_id;
+    int queuesJoined;
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
@@ -66,19 +70,33 @@ public class CompanyDescription extends Activity {
         };
         thread.start();
 
+
         final Button addToQueue = (Button) findViewById(R.id.joinButton);
         addToQueue.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //if(DBUtil.getNumOfQueues() < 5)
-                DBUtil.addSelfToQueue(extras.getString("Company"), android_id,  new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(getApplicationContext(), "Added to queue",
-                                Toast.LENGTH_SHORT).show();
-                        addToQueue.setText("Entered Queue");
-                        WearCommunicationBridge.updateQueue(CompanyDescription.this, android_id);
+                DBUtil.getQueuesUserIsPartOf(android_id, new FindCallback<ParseObject>(){
+                    public void done(List<ParseObject> queueList, ParseException e){
+                        if(e==null){
+                            queuesJoined = queueList.size();
+                        } else{
+                            Log.d("Pull number of queues", "Error: " + e.getMessage());
+                        }
                     }
+
                 });
+                if(queuesJoined < 5) {
+                    System.out.println("Added to queue");
+                    DBUtil.addSelfToQueue(extras.getString("Company"), android_id, new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Toast.makeText(getApplicationContext(), "Added to queue",
+                                    Toast.LENGTH_SHORT).show();
+                            addToQueue.setText("Entered Queue");
+                        }
+                    });
+                } else {
+                    addToQueue.setText("Queue Cap Reached");
+                }
             }
         });
 
