@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
@@ -34,6 +35,7 @@ public class CompanyDescription extends Activity {
     Button nextButton;
     String android_id;
     int queuesJoined;
+    boolean inQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
@@ -72,34 +74,43 @@ public class CompanyDescription extends Activity {
 
 
         final Button addToQueue = (Button) findViewById(R.id.joinButton);
-        addToQueue.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                DBUtil.getQueuesUserIsPartOf(android_id, new FindCallback<ParseObject>(){
-                    public void done(List<ParseObject> queueList, ParseException e){
-                        if(e==null){
-                            queuesJoined = queueList.size();
-                        } else{
-                            Log.d("Pull number of queues", "Error: " + e.getMessage());
-                        }
-                    }
+        DBUtil.getPlaceInQueue(extras.getString("Company"), android_id, new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if(object==null){
+                    addToQueue.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            DBUtil.getQueuesUserIsPartOf(android_id, new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> queueList, ParseException e) {
+                                    if (e == null) {
+                                        queuesJoined = queueList.size();
+                                    } else {
+                                        Log.d("Pull number of queues", "Error: " + e.getMessage());
+                                    }
+                                }
 
-                });
-                if(queuesJoined < 5) {
-                    System.out.println("Added to queue");
-                    DBUtil.addSelfToQueue(extras.getString("Company"), android_id, new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            Toast.makeText(getApplicationContext(), "Added to queue",
-                                    Toast.LENGTH_SHORT).show();
-                            addToQueue.setText("Entered Queue");
-                            WearCommunicationBridge.updateQueue(CompanyDescription.this, android_id);
+                            });
+                            if (queuesJoined < 5) {
+                                System.out.println("Added to queue");
+                                DBUtil.addSelfToQueue(extras.getString("Company"), android_id, new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        Toast.makeText(getApplicationContext(), "Added to queue",
+                                                Toast.LENGTH_SHORT).show();
+                                        addToQueue.setText("Entered Queue");
+                                        WearCommunicationBridge.updateQueue(CompanyDescription.this, android_id);
+                                    }
+                                });
+                            } else {
+                                addToQueue.setText("Queue Cap Reached");
+                            }
                         }
                     });
                 } else {
-                    addToQueue.setText("Queue Cap Reached");
+                    addToQueue.setText("Already In Queue");
                 }
             }
         });
+
 
         Log.d("posi", extras.getString("PositionsAvailable"));
         String[] positionsAvailable = extras.getString("PositionsAvailable").split(",");
