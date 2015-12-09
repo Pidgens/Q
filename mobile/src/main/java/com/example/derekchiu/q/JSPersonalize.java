@@ -98,7 +98,7 @@ public class JSPersonalize extends Activity {
         String school_string = school.getText().toString();
         String major_string = major.getText().toString();
         Bundle name = getIntent().getExtras();
-        String username = name.get("user").toString();
+        final String username = name.get("user").toString();
         String full_string = begin_welcome_msg + username + end_welcome_msg;
         welcomeTv.setText(full_string);
         welcomeTv.setTextColor(getResources().getColor(R.color.black));
@@ -131,6 +131,7 @@ public class JSPersonalize extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(JSPersonalize.this, Manage.class);
+                i.putExtra("Name", username);
                 WearCommunicationBridge.startJSWearable(JSPersonalize.this, androidId);
                 startActivity(i);
             }

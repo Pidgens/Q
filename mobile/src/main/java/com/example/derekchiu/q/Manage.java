@@ -38,6 +38,7 @@ public class Manage extends Activity {
 
 
         extras = getIntent().getExtras();
+        final String name = extras.getString("Name");
 
         companiesListView = (ListView) findViewById(R.id.companiesListView);
 
@@ -130,6 +131,7 @@ public class Manage extends Activity {
                 i.putExtra("Description", companyObj.getString("description"));
                 i.putExtra("LogoURL", companyObj.getString("logoURL"));
                 i.putExtra("Company", companyObj.getString("name"));
+                i.putExtra("Name", name);
 
                 String positionsString = "";
                 List positions = companyObj.getList("positionsAvailable");
