@@ -3,7 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_blue"
-    android:id="@+id/jsp_layout">
+    android:id="@+id/jsp_layout"
+    android:visibility="visible">
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,7 +86,9 @@
         android:textSize="18dp"
         android:hint="Business Analyst"
         android:layout_toStartOf="@+id/js_addText"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -116,9 +119,10 @@
         android:layout_height="wrap_content"
         android:text="+"
         android:id="@+id/js_addText"
-        android:layout_below="@+id/textView11"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp" />
+        android:background="@color/actual_light_blue"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/welcome" />
 
     <AutoCompleteTextView
         android:layout_width="wrap_content"
@@ -132,7 +136,9 @@
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/js_addText"
         android:layout_marginTop="10dp"
-        android:visibility="invisible" />
+        android:visibility="visible"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <AutoCompleteTextView
         android:layout_width="wrap_content"
@@ -146,17 +152,21 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/js_seek2"
         android:layout_marginTop="10dp"
-        android:visibility="invisible" />
+        android:visibility="visible"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
+        android:background="@color/actual_light_blue"
         android:id="@+id/js_addText2"
-        android:layout_below="@+id/js_addText"
-        android:layout_toEndOf="@+id/js_seek2"
-        android:layout_marginTop="10dp"
-        android:visibility="invisible" />
+        android:visibility="visible"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/js_seek2"
+        android:layout_toEndOf="@+id/js_seek3" />
 
 </RelativeLayout>
