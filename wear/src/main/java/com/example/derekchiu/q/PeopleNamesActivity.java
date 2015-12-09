@@ -23,15 +23,14 @@ public class PeopleNamesActivity extends Activity {
         setContentView(R.layout.people_names_activity);
         mImageView = (ImageView) findViewById(R.id.imageView);
         mImageView.setImageResource(R.drawable.person_name);
-        final Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        mImageView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
                 Intent i = new Intent(PeopleNamesActivity.this, PeopleNamesCountdownActivity.class);
                 startActivity(i);
             }
         });
-        button.setOnLongClickListener(new View.OnLongClickListener() {
+        mImageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Intent queue = new Intent(PeopleNamesActivity.this,

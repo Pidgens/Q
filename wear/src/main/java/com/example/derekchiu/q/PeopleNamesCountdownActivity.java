@@ -19,8 +19,7 @@ public class PeopleNamesCountdownActivity extends Activity {
         setContentView(R.layout.people_names_countdown_activity);
         mImageView = (ImageView) findViewById(R.id.imageView2);
         mImageView.setImageResource(R.drawable.person_name_countdown);
-        final Button button = (Button) findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
+        mImageView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
                 Intent i = new Intent(PeopleNamesCountdownActivity.this, DismissCountdownActivity.class);
