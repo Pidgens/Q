@@ -86,7 +86,7 @@ public class CompanyDescription extends Activity {
                 });
                 if(queuesJoined < 5) {
                     System.out.println("Added to queue");
-                    DBUtil.addSelfToQueue(extras.getString("Company"), android_id, new SaveCallback() {
+                    DBUtil.addSelfToQueue(extras.getString("Company"), extras.getString("Name"), android_id, new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             Toast.makeText(getApplicationContext(), "Added to queue",

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class DBUtil {
 
-    public static void addSelfToQueue(final String company, final String myId, final SaveCallback callback) {
+    public static void addSelfToQueue(final String company, final String name, final String myId, final SaveCallback callback) {
 
         getPlaceInQueue(company, myId, new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
@@ -41,6 +41,7 @@ public class DBUtil {
                             queuePlace.put("userID", myId);
                             queuePlace.put("company", company);
                             queuePlace.put("place", place);
+                            queuePlace.put("name", name);
                             ParseACL acl = new ParseACL();
                             acl.setPublicReadAccess(true);
                             acl.setPublicWriteAccess(true);
