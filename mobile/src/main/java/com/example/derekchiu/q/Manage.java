@@ -55,25 +55,27 @@ public class Manage extends Activity {
                     pfobjectsList.clear();
                     for (final ParseObject object : queueList) {
                         final String temp = object.getString("name");
-                        DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
-                            public void done(List<ParseObject> queueList, ParseException e) {
-                                if (e == null) {
-
-                                    companiesList.add(new DataItem(object.getString("name"), queueList.size()));
-                                    pfobjectsList.add(object);
-                                    listAdapter.notifyDataSetChanged();
-                                    Log.d("okay", "Got " + queueList.size());
-                                } else {
-                                    Log.d("pull queue", "Error: " + e.getMessage());
-                                    size = 0;
-                                }
-//                                companiesList.add(new DataItem(temp, size));
-//                                listAdapter.notifyDataSetChanged();
-                                Log.d("found list item", "Got " + temp + " and " + size);
-                            }
-                        });
-
+//                        DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
+//                            public void done(List<ParseObject> queueList, ParseException e) {
+//                                if (e == null) {
+//
+//                                    companiesList.add(new DataItem(object.getString("name"), queueList.size()));
+//                                    pfobjectsList.add(object);
+//                                    listAdapter.notifyDataSetChanged();
+//                                    Log.d("okay", "Got " + queueList.size());
+//                                } else {
+//                                    Log.d("pull queue", "Error: " + e.getMessage());
+//                                    size = 0;
+//                                }
+////                                companiesList.add(new DataItem(temp, size));
+////                                listAdapter.notifyDataSetChanged();
+//                                Log.d("found list item", "Got " + temp + " and " + size);
+//                            }
+//                        });
+                        companiesList.add(new DataItem(object.getString("name"), object.getInt("queueSize")));
                         pfobjectsList.add(object);
+                        listAdapter.notifyDataSetChanged();
+
                     }
                     Log.d("okay", "Got " + queueList.size());
 
@@ -138,7 +140,7 @@ public class Manage extends Activity {
 
             }
         };
-        timer.schedule(doAsynchronousTask, 30000, 30000); //should do asynchronous task every minute
+//        timer.schedule(doAsynchronousTask, 30000, 30000); //should do asynchronous task every minute
 
 
         companiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

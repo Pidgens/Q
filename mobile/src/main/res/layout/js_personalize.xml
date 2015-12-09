@@ -24,6 +24,7 @@
         android:singleLine="true"
         android:textSize="18dp"
         android:hint="Enter your school"
+        android:imeOptions="actionDone"
         android:layout_alignTop="@+id/textView9"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="15dp"
@@ -48,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/major"
+        android:imeOptions="actionDone"
         android:textSize="18dp"
         android:singleLine="true"
         android:hint="Area of study"
@@ -78,10 +80,12 @@
         android:id="@+id/position"
         android:layout_below="@+id/textView11"
         android:layout_alignParentStart="true"
+        android:imeOptions="actionDone"
         android:singleLine="true"
         android:textSize="18dp"
         android:hint="Business Analyst"
-        android:layout_toStartOf="@+id/add_position" />
+        android:layout_toStartOf="@+id/js_addText"
+        android:layout_marginTop="10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -111,7 +115,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
-        android:id="@+id/add_position"
+        android:id="@+id/js_addText"
         android:layout_below="@+id/textView11"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp" />
+
+    <AutoCompleteTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/js_seek2"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:textSize="18dp"
+        android:hint="Financial Analyst"
+        android:layout_below="@+id/position"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/js_addText"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible" />
+
+    <AutoCompleteTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/js_seek3"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:textSize="18dp"
+        android:hint="Product Management"
+        android:layout_below="@+id/js_seek2"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/js_seek2"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/js_addText2"
+        android:layout_below="@+id/js_addText"
+        android:layout_toEndOf="@+id/js_seek2"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible" />
+
 </RelativeLayout>
