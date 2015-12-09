@@ -55,7 +55,7 @@ public class WearCommunicationBridge {
                     list.add(object.getString("company") + object.getInt("place"));
                 }
                 DataMap map = new DataMap();
-                map.putStringArray(DATA_PLACE_ARRAY, (String[]) list.toArray());
+                map.putStringArrayList(DATA_PLACE_ARRAY, list);
                 new SendToDataLayerThread(WEARABLE_QUEUED_PATH, map).start();
             }
         });

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.util.Log;
@@ -18,15 +19,32 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Created by tomo on 12/6/15.
  */
 public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
 
+    private static QueueGridPagerAdapter adapter;
+
+    @Nullable
+    public static QueueGridPagerAdapter getInstance() {
+        return adapter;
+    }
+
+    public static QueueGridPagerAdapter getInstance(Context ctx, FragmentManager fm) {
+        if (adapter == null) {
+            adapter = new QueueGridPagerAdapter(ctx, fm);
+        }
+        return adapter;
+    }
+
     private Context context;
     private static final int PADDING = 10;
 
-    public QueueGridPagerAdapter(Context ctx, FragmentManager fm) {
+    private QueueGridPagerAdapter(Context ctx, FragmentManager fm) {
         super(fm);
         context = ctx;
     }
@@ -136,7 +154,6 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
     public int getColumnCount(int i) {
         return 3;
     }
-
 
     private ImageButton getDropButton(final int i) {
         ImageButton button = new ImageButton(context);

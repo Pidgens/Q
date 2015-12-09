@@ -1,8 +1,13 @@
 package com.example.derekchiu.q;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
@@ -14,6 +19,8 @@ import com.google.android.gms.wearable.WearableListenerService;
 import android.util.Log;
 import com.google.android.gms.wearable.MessageEvent;
 
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -53,7 +60,7 @@ public class MobileConnector extends WearableListenerService {
     private void sendLocalNotification(DataMap dataMap, String path) {
         int notificationId = 001;
 
-        Intent startIntent;
+        Intent startIntent = null;
         Log.v("p", path);
         if (path.equals(WEARABLE_COMPANY_PATH)) {
             Log.v("path", "comp");
@@ -64,9 +71,12 @@ public class MobileConnector extends WearableListenerService {
             startIntent = new Intent(this, QueueActivity.class);
         } else if (path.equals(WEARABLE_QUEUED_PATH)) {
             ArrayList<String> currentList = dataMap.getStringArrayList(DATA_PLACE_ARRAY);
-            CompanyPlaceList.updateList(currentList);
-
-            startIntent = new Intent(this, QueueActivity.class);
+            if (currentList != null) {
+                CompanyPlaceList.updateList(currentList);
+                if (QueueGridPagerAdapter.getInstance() != null) {
+                    QueueGridPagerAdapter.getInstance().notifyDataSetChanged();
+                }
+            }
             Log.v("path", "queued_update");
         } else {
             Log.v("path", "choose");
