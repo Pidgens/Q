@@ -54,6 +54,7 @@ public class Manage extends Activity {
                     companiesList.clear();
                     pfobjectsList.clear();
                     for (final ParseObject object : queueList) {
+                        final String temp = object.getString("name");
                         DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
                             public void done(List<ParseObject> queueList, ParseException e) {
                                 if (e == null) {
@@ -66,8 +67,8 @@ public class Manage extends Activity {
                                     Log.d("pull queue", "Error: " + e.getMessage());
                                     size = 0;
                                 }
-                                companiesList.add(new DataItem(temp, size));
-                                listAdapter.notifyDataSetChanged();
+//                                companiesList.add(new DataItem(temp, size));
+//                                listAdapter.notifyDataSetChanged();
                                 Log.d("found list item", "Got " + temp + " and " + size);
                             }
                         });
@@ -92,31 +93,31 @@ public class Manage extends Activity {
                         try{
                             System.out.println("Timing working");
                             companiesList = new ArrayList<DataItem>();
-                            jobseekersList = new ArrayList<String>();
+//                            jobseekersList = new ArrayList<String>();
                             pfobjectsList = new ArrayList<ParseObject>();
                             DBUtil.getCompanies(new FindCallback<ParseObject>() {
                                 public void done(List<ParseObject> queueList, ParseException e) {
                                     if (e == null) {
                                         companiesList.clear();
                                         pfobjectsList.clear();
-                                        for (ParseObject object : queueList) {
+                                        for (final ParseObject object : queueList) {
                                             final String temp = object.getString("name");
                                             DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
                                                 public void done(List<ParseObject> queueList, ParseException e) {
                                                     if (e == null) {
-                                                        jobseekersList.clear();
-                                                        for (ParseObject object : queueList) {
-                                                            jobseekersList.add(object.getString("name"));
-                                                        }
+//
+                                                        companiesList.add(new DataItem(object.getString("name"), queueList.size()));
+                                                        pfobjectsList.add(object);
+                                                        listAdapter.notifyDataSetChanged();
                                                         size = queueList.size();
                                                         Log.d("okay", "Got " + queueList.size());
                                                     } else {
                                                         Log.d("pull queue", "Error: " + e.getMessage());
                                                         size = 0;
                                                     }
-                                                    companiesList.add(new DataItem(temp, size));
-                                                    listAdapter.notifyDataSetChanged();
-                                                    Log.d("found list item", "Got " + temp + " and " + size);
+//                                                    companiesList.add(new DataItem(temp, size));
+//                                                    listAdapter.notifyDataSetChanged();
+//                                                    Log.d("found list item", "Got " + temp + " and " + size);
                                                 }
                                             });
 
