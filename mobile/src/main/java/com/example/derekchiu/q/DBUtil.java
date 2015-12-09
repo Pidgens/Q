@@ -100,7 +100,7 @@ public class DBUtil {
 
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("QueuePlace");
                     query.whereGreaterThan("place", currPlace);
-                    query.whereEqualTo("company", "Q");
+                    query.whereEqualTo("company", company);
                     query.findInBackground(new FindCallback<ParseObject>() {
                         public void done(List<ParseObject> objectList, ParseException e) {
                             if (e == null) {
@@ -152,6 +152,37 @@ public class DBUtil {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Company");
         query.orderByAscending("name");
         query.findInBackground(callback);
+    }
+
+    public static void getQueuesUserIsPartOf(String myId, final FindCallback callback) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("QueuePlace");
+        query.whereEqualTo("userID", myId);
+        query.findInBackground(callback);
+    }
+    
+    public static void getRidOfFirstPersonInQueue(String company) {
+
+        ParseQuery<ParseObject> moveUpQuery = ParseQuery.getQuery("QueuePlace");
+        moveUpQuery.whereEqualTo("company", company);
+        moveUpQuery.orderByAscending("place");
+        moveUpQuery.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objectList, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objectList.size(); i++) {
+                        ParseObject object = objectList.get(i);
+
+                        if (i == 0) {
+                            object.deleteInBackground();
+                        } else {
+                            object.put("place", object.getInt("place") - 1);
+                            object.saveInBackground();
+                        }
+                    }
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 
 }
