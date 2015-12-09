@@ -1,16 +1,15 @@
 package com.example.derekchiu.q;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by tomo on 12/6/15.
  */
-public class CompanyQueue {
+public class CompanyPlace {
     private String name;
     private int place;
 
-    public CompanyQueue(String name, int place) {
+    public CompanyPlace(String name, int place) {
         this.name = name;
         this.place = place;
     }
@@ -28,14 +27,14 @@ public class CompanyQueue {
         place += 5;
     }
 
-    private static ArrayList<CompanyQueue> mockdata;
+    private static ArrayList<CompanyPlace> mockdata;
 
-    public static ArrayList<CompanyQueue> getMockData() {
+    public static ArrayList<CompanyPlace> getMockData() {
         if (mockdata == null) {
-            mockdata = new ArrayList<CompanyQueue>();
-            mockdata.add(new CompanyQueue("Walmart", 14));
-            mockdata.add(new CompanyQueue("Disney", 30));
-            mockdata.add(new CompanyQueue("Goldman Sachs", 4));
+            mockdata = new ArrayList<CompanyPlace>();
+            mockdata.add(new CompanyPlace("Walmart", 14));
+            mockdata.add(new CompanyPlace("Disney", 30));
+            mockdata.add(new CompanyPlace("Goldman Sachs", 4));
         }
         return mockdata;
     }

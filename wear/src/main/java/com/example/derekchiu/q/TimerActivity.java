@@ -112,7 +112,7 @@ public class TimerActivity extends Activity {
         Intent intent = new Intent(this, FeedbackActivity.class);
         intent.putExtra(FeedbackActivity.FEEDBACK_TYPE, FeedbackActivity.DROP);
         intent.putExtra(FeedbackActivity.COMPANY, companyString);
-        CompanyQueue.getMockData().remove(CompanyQueue.getMockData().size() - 1);
+        CompanyPlace.getMockData().remove(CompanyPlace.getMockData().size() - 1);
         startActivity(intent);
         timer.cancel();
     }

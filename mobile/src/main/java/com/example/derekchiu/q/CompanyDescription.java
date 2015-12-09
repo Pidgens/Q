@@ -76,6 +76,7 @@ public class CompanyDescription extends Activity {
                         Toast.makeText(getApplicationContext(), "Added to queue",
                                 Toast.LENGTH_SHORT).show();
                         addToQueue.setText("Entered Queue");
+                        WearCommunicationBridge.updateQueue(CompanyDescription.this, android_id);
                     }
                 });
             }

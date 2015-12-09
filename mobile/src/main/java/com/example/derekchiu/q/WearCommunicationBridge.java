@@ -9,6 +9,12 @@ import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tomo on 12/8/15.
@@ -19,6 +25,8 @@ public class WearCommunicationBridge {
 
     private static GoogleApiClient googleClient;
     private static final String WEARABLE_COMPANY_PATH = "/wearable_company";
+    private static final String WEARABLE_QUEUED_PATH = "/wearable_queued_path";
+    private static final String DATA_PLACE_ARRAY = "/place_update_array";
 
     private static void init(Context context) {
         if (googleClient == null) {
@@ -35,6 +43,22 @@ public class WearCommunicationBridge {
         DataMap notifyWearable = new DataMap();
         notifyWearable.putLong("time", System.currentTimeMillis());
         new SendToDataLayerThread(WEARABLE_COMPANY_PATH, notifyWearable).start();
+    }
+
+    public static void updateQueue(Context context, String android_id) {
+        init(context);
+        DBUtil.getQueuesUserIsPartOf(android_id, new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                ArrayList<String> list = new ArrayList<String>();
+                for (ParseObject object: objects) {
+                    list.add(object.getString("company") + object.getInt("place"));
+                }
+                DataMap map = new DataMap();
+                map.putStringArray(DATA_PLACE_ARRAY, (String[]) list.toArray());
+                new SendToDataLayerThread(WEARABLE_QUEUED_PATH, map).start();
+            }
+        });
     }
 
     private static class SendToDataLayerThread extends Thread {

@@ -4,19 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
-import com.google.android.gms.wearable.Wearable;
 
 import java.util.Calendar;
 
@@ -53,7 +44,6 @@ public class CompanyPersonalize extends Activity {
                 int seconds = c.get(Calendar.SECOND);
                 Intent i = new Intent(CompanyPersonalize.this, JobManage.class);
                 i.putExtra("user", extras.getString("user"));
-
 
                 String name = extras.getString("user");
                 EditText company = (EditText) findViewById(R.id.editText);

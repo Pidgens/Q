@@ -34,7 +34,7 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
     @Override
     public Fragment getFragment(final int i, int j) {
         Log.d("Here", i + " " + j + " Here");
-        final CompanyQueue cq = CompanyQueue.getMockData().get(i);
+        final CompanyPlace cq = CompanyPlace.getMockData().get(i);
         if (j == 0) {
             Fragment fragment = new Fragment() {
                 @Override
@@ -82,7 +82,7 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
                     layout.addView(name);
                     layout.addView(place);
                     layout.addView(image, layoutParams);
-                    if (i + 1 == CompanyQueue.getMockData().size()) {
+                    if (i + 1 == CompanyPlace.getMockData().size()) {
                         (new Thread() {
                             public void run() {
                                 try {
@@ -129,7 +129,7 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
 
     @Override
     public int getRowCount() {
-        return CompanyQueue.getMockData().size();
+        return CompanyPlace.getMockData().size();
     }
 
     @Override
@@ -148,8 +148,8 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
                 Intent feedback = new Intent(context, FeedbackActivity.class);
                 feedback.putExtra(FeedbackActivity.FEEDBACK_TYPE, FeedbackActivity.DROP);
                 feedback.putExtra(FeedbackActivity.COMPANY,
-                        CompanyQueue.getMockData().get(i).getName());
-                CompanyQueue.getMockData().remove(i);
+                        CompanyPlace.getMockData().get(i).getName());
+                CompanyPlace.getMockData().remove(i);
                 QueueGridPagerAdapter.this.notifyDataSetChanged();
                 context.startActivity(feedback);
             }
@@ -164,12 +164,12 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CompanyQueue.getMockData().get(i).bumpQueue();
+                CompanyPlace.getMockData().get(i).bumpQueue();
                 QueueGridPagerAdapter.this.notifyDataSetChanged();
                 Intent feedback = new Intent(context, FeedbackActivity.class);
                 feedback.putExtra(FeedbackActivity.FEEDBACK_TYPE, FeedbackActivity.BUMP);
                 feedback.putExtra(FeedbackActivity.COMPANY,
-                        CompanyQueue.getMockData().get(i).getName());
+                        CompanyPlace.getMockData().get(i).getName());
                 context.startActivity(feedback);
             }
         });

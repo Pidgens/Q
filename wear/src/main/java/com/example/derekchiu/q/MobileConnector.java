@@ -14,6 +14,8 @@ import com.google.android.gms.wearable.WearableListenerService;
 import android.util.Log;
 import com.google.android.gms.wearable.MessageEvent;
 
+import java.util.ArrayList;
+
 /**
  * Created by tomo on 12/1/15.
  */
@@ -22,6 +24,8 @@ public class MobileConnector extends WearableListenerService {
 
     String WEARABLE_COMPANY_PATH = "/wearable_company";
     String WEARABLE_JS_PATH = "/wearable_js";
+    private static final String WEARABLE_QUEUED_PATH = "/wearable_queued_path";
+    private static final String DATA_PLACE_ARRAY = "/place_update_array";
 
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
@@ -58,6 +62,12 @@ public class MobileConnector extends WearableListenerService {
             Log.v("path", "js");
 
             startIntent = new Intent(this, QueueActivity.class);
+        } else if (path.equals(WEARABLE_QUEUED_PATH)) {
+            ArrayList<String> currentList = dataMap.getStringArrayList(DATA_PLACE_ARRAY);
+            CompanyPlaceList.updateList(currentList);
+
+            startIntent = new Intent(this, QueueActivity.class);
+            Log.v("path", "queued_update");
         } else {
             Log.v("path", "choose");
 
