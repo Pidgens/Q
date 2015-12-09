@@ -140,7 +140,6 @@ public class CompanyPersonalize extends Activity {
 
         add_text = (Button) findViewById(R.id.add_text);
         add_text2 = (Button) findViewById(R.id.add_text2);
-        add_text3 = (Button) findViewById(R.id.add_text3);
         add_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

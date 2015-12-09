@@ -210,6 +210,8 @@ public class DBUtil {
 
     public static void getPositionsAvailable(String company, final GetCallback callback) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Company");
+        query.whereEqualTo("name", company);
+        query.getFirstInBackground(callback);
     }
     
     public static void getRidOfFirstPersonInQueue(String company) {
