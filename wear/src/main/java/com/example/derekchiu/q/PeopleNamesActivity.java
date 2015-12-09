@@ -2,94 +2,74 @@ package com.example.derekchiu.q;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.GestureDetector;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * Created by kroy1205 on 11/30/15.
  */
 public class PeopleNamesActivity extends Activity {
     private ImageView mImageView;
-    private GestureDetector mGestureDetector;
-
+    private TextView mTextView;
+    private ArrayList<String> mNames = new ArrayList<String>();
+    private float downX;
+    private float upX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.people_names_activity);
+        Intent i = getIntent();
+        String name = i.getStringExtra("next_name");
+        mNames.add("Derek Chiu");
+        mNames.add("Roy Kim");
         mImageView = (ImageView) findViewById(R.id.imageView);
-        mImageView.setImageResource(R.drawable.person_name);
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Intent i = new Intent(PeopleNamesActivity.this, PeopleNamesCountdownActivity.class);
-                startActivity(i);
-            }
-        });
-        mImageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent queue = new Intent(PeopleNamesActivity.this,
-                        ChooseFlowActivity.class);
-                startActivity(queue);
-                return true;
-            }
-        });
-        /**CustomGestureDetector customGestureDetector = new CustomGestureDetector();
-        // Create a GestureDetector
-        mGestureDetector = new GestureDetector(this, customGestureDetector);
-        // Attach listeners that'll be called for double-tap and related gestures
-        mGestureDetector.setOnDoubleTapListener(customGestureDetector);
-         */
-    }
+        mImageView.setImageResource(R.drawable.watch_background);
+        mImageView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) {
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
+                    downX = event.getX();
+                    //mSwipeDetected = Action.None;
+                    return true; // allow other events like Click to be processed
+                } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+                    upX = event.getX();
 
+                    float deltaX = downX - upX;
 
-        mGestureDetector.onTouchEvent(event);
-
-        return super.onTouchEvent(event);
-        /**
-        int action = MotionEventCompat.getActionMasked(event);
-
-        switch(action) {
-            case (MotionEvent.ACTION_DOWN) :
-                Log.d(getString(R.string.debug_tag), "Action was DOWN");
-                x1 = event.getX();
-                return true;
-            case (MotionEvent.ACTION_MOVE) :
-                Log.d(getString(R.string.debug_tag),"Action was MOVE");
-                return true;
-            case (MotionEvent.ACTION_UP) :
-                Log.d(getString(R.string.debug_tag),"Action was UP");
-                x2 = event.getX();
-                float deltaX = x2 - x1;
-                if (Math.abs(deltaX) > MIN_DISTANCE)
-                {
-                    Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
-                }
-                else
-                {
-                    // consider as something else - a screen tap for example
-                    Toast.makeText(this, "not left to right", Toast.LENGTH_SHORT).show ();
+                    // horizontal swipe detection
+                    if (Math.abs(deltaX) > 150) {
+                        // left or right
+                        if (deltaX > 0) {
+                            Log.i("My Tag", "Swipe Right to Left");
+                            Intent i = new Intent(PeopleNamesActivity.this, PeopleNamesCountdownActivity.class);
+                            i.putExtra("next_name", mNames.get(1));
+                            startActivity(i);
+                            // mSwipeDetected = Action.RL;
+                            return false;
+                        }
+                    }
                 }
                 return true;
-            case (MotionEvent.ACTION_CANCEL) :
-                Log.d(getString(R.string.debug_tag),"Action was CANCEL");
-                return true;
-            case (MotionEvent.ACTION_OUTSIDE) :
-                Log.d(getString(R.string.debug_tag),"Movement occurred outside bounds " +
-                        "of current screen element");
-                return true;
-            default :
-                return super.onTouchEvent(event);
-         }
-    }
-         */
+            }
+        });
+        mTextView = (TextView) findViewById(R.id.textView);
+        if (name != null) {
+            mTextView.setText(name);
+        } else {
+            mTextView.setText(mNames.get(0));
+        }
+        mTextView.setTypeface(null, Typeface.BOLD);
+        mTextView.setTextColor(Color.BLACK);
+
     }
 }

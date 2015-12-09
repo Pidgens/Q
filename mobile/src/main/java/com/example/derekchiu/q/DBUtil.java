@@ -120,6 +120,46 @@ public class DBUtil {
         });
     }
 
+    public static void bumpBackInQueue(final String company, String myId, final SaveCallback callback) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("QueuePlace");
+
+        query.whereEqualTo("company", company);
+        query.whereEqualTo("userID", myId);
+
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(final ParseObject queuePlaceObject, ParseException e) {
+                if (queuePlaceObject == null) {
+                    Log.d("Remove", "Already removed");
+                } else {
+                    final int currPlace = queuePlaceObject.getInt("place");
+                    Log.d("d", "curr " + currPlace);
+
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("QueuePlace");
+                    query.whereGreaterThan("place", currPlace);
+                    query.whereEqualTo("company", company);
+                    query.orderByAscending("place");
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        public void done(List<ParseObject> objectList, ParseException e) {
+                            if (e == null) {
+                                int count = 0;
+                                for (int i = 0; i < objectList.size() && count < 5; i++) {
+                                    ParseObject object = objectList.get(i);
+                                    object.put("place", object.getInt("place") - 1);
+                                    object.saveInBackground();
+                                    count += 1;
+                                }
+
+                                queuePlaceObject.put("place", currPlace + count);
+                            } else {
+                                Log.d("score", "Error: " + e.getMessage());
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     public static void getInfoAboutMe(String myId, final GetCallback callback) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("QUser");
 

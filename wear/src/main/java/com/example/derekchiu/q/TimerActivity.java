@@ -23,6 +23,9 @@ public class TimerActivity extends Activity {
     public static final String COMPANY = "company";
 
     TextView timerText;
+    TextView company;
+    private ImageView accept;
+    private ImageView decline;
     Timer timer;
     String companyString;
     final Handler handler = new Handler();
@@ -61,7 +64,7 @@ public class TimerActivity extends Activity {
         BoxInsetLayout layout = new BoxInsetLayout(this);
         layout.setBackgroundColor(Color.WHITE);
 
-        TextView company = new TextView(this);
+        company = new TextView(this);
         company.setTextColor(Color.BLACK);
         company.setText(companyString);
         company.setGravity(Gravity.CENTER);
@@ -74,13 +77,19 @@ public class TimerActivity extends Activity {
         timerText.setTextSize(28);
         timerText.setGravity(Gravity.CENTER);
 
-        ImageView accept = new ImageView(this);
+        accept = new ImageView(this);
         accept.setImageResource(R.drawable.accept);
         accept.setX(180);
         accept.setY(200);
         ViewGroup.LayoutParams acceptParams = new ViewGroup.LayoutParams(75, 75);
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAccept();
+            }
+        });
 
-        ImageView decline = new ImageView(this);
+        decline = new ImageView(this);
         decline.setImageResource(R.drawable.dismiss);
         decline.setX(80);
         decline.setY(200);
@@ -103,8 +112,18 @@ public class TimerActivity extends Activity {
         Intent intent = new Intent(this, FeedbackActivity.class);
         intent.putExtra(FeedbackActivity.FEEDBACK_TYPE, FeedbackActivity.DROP);
         intent.putExtra(FeedbackActivity.COMPANY, companyString);
-        CompanyQueue.getMockData().remove(CompanyQueue.getMockData().size() - 1);
+        CompanyPlace.getMockData().remove(CompanyPlace.getMockData().size() - 1);
         startActivity(intent);
+        timer.cancel();
     }
+
+    private void startAccept() {
+        company.setY(company.getY() + 50);
+        decline.setVisibility(View.GONE);
+        accept.setVisibility(View.GONE);
+        timerText.setVisibility(View.GONE);
+        timer.cancel();
+    }
+
 
 }

@@ -26,7 +26,6 @@ public class Manage extends Activity {
     ListView companiesListView;
     ArrayList<DataItem> companiesList;
     ArrayList<ParseObject> pfobjectsList;
-    ArrayList<String> jobseekersList;
     CompanyQueueAdapter listAdapter;
     Bundle extras;
     final Handler handler = new Handler();
@@ -43,7 +42,6 @@ public class Manage extends Activity {
         companiesListView = (ListView) findViewById(R.id.companiesListView);
 
         companiesList = new ArrayList<DataItem>();
-        jobseekersList = new ArrayList<String>();
         pfobjectsList = new ArrayList<ParseObject>();
 
         listAdapter = new CompanyQueueAdapter(this, android.R.layout.simple_list_item_1, companiesList);
@@ -55,16 +53,14 @@ public class Manage extends Activity {
                 if (e == null) {
                     companiesList.clear();
                     pfobjectsList.clear();
-                    for (ParseObject object : queueList) {
-                        final String temp = object.getString("name");
+                    for (final ParseObject object : queueList) {
                         DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
                             public void done(List<ParseObject> queueList, ParseException e) {
                                 if (e == null) {
-                                    jobseekersList.clear();
-                                    for (ParseObject object : queueList) {
-                                        jobseekersList.add(object.getString("name"));
-                                    }
-                                    size = queueList.size();
+
+                                    companiesList.add(new DataItem(object.getString("name"), queueList.size()));
+                                    pfobjectsList.add(object);
+                                    listAdapter.notifyDataSetChanged();
                                     Log.d("okay", "Got " + queueList.size());
                                 } else {
                                     Log.d("pull queue", "Error: " + e.getMessage());
@@ -79,7 +75,6 @@ public class Manage extends Activity {
                         pfobjectsList.add(object);
                     }
                     Log.d("okay", "Got " + queueList.size());
-
 
                 } else {
                     Log.d("pull queue", "Error: " + e.getMessage());
@@ -125,10 +120,8 @@ public class Manage extends Activity {
                                                 }
                                             });
 
-                                            pfobjectsList.add(object);
                                         }
                                         Log.d("okay", "Got " + queueList.size());
-
 
                                     } else {
                                         Log.d("pull queue", "Error: " + e.getMessage());
