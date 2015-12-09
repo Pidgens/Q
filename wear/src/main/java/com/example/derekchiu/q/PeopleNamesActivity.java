@@ -21,15 +21,14 @@ public class PeopleNamesActivity extends Activity {
     private TextView mTextView;
     private ArrayList<String> mNames = new ArrayList<String>();
     private float downX;
-    private float downY;
     private float upX;
-    private float upY;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.people_names_activity);
+        Intent i = getIntent();
+        String name = i.getStringExtra("next_name");
         mNames.add("Derek Chiu");
         mNames.add("Roy Kim");
         mImageView = (ImageView) findViewById(R.id.imageView);
@@ -40,12 +39,10 @@ public class PeopleNamesActivity extends Activity {
                 if (action == MotionEvent.ACTION_DOWN) {
 
                     downX = event.getX();
-                    downY = event.getY();
                     //mSwipeDetected = Action.None;
                     return true; // allow other events like Click to be processed
                 } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
                     upX = event.getX();
-                    upY = event.getY();
 
                     float deltaX = downX - upX;
 
@@ -66,24 +63,13 @@ public class PeopleNamesActivity extends Activity {
             }
         });
         mTextView = (TextView) findViewById(R.id.textView);
-        mTextView.setText(mNames.get(0));
+        if (name != null) {
+            mTextView.setText(name);
+        } else {
+            mTextView.setText(mNames.get(0));
+        }
         mTextView.setTypeface(null, Typeface.BOLD);
         mTextView.setTextColor(Color.BLACK);
-        /**mImageView.setOnClickListener(new View.OnClickListener() {
-         public void onClick(View v) {
-         // Perform action on click
-         Intent i = new Intent(PeopleNamesActivity.this, PeopleNamesCountdownActivity.class);
-         startActivity(i);
-         }
-         });
-         mImageView.setOnLongClickListener(new View.OnLongClickListener() {
-        @Override public boolean onLongClick(View v) {
-        Intent queue = new Intent(PeopleNamesActivity.this,
-        ChooseFlowActivity.class);
-        startActivity(queue);
-        return true;
-        }
-        });*/
 
     }
 }

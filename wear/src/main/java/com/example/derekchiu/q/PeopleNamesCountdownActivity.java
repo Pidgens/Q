@@ -44,13 +44,14 @@ public class PeopleNamesCountdownActivity extends Activity {
 
                     @Override
                     public void run() {
-                        if (seconds > 0) {
+                        if (seconds >= 0) {
                             TextView tv = (TextView) findViewById(R.id.textView3);
                             tv.setText(String.valueOf(seconds) + "s");
                             tv.setTextColor(Color.RED);
                             seconds -= 1;
                         } else {
                             Intent in = new Intent(PeopleNamesCountdownActivity.this, FailedToArriveActivity.class);
+                            in.putExtra("next_name", "Roy Kim");
                             startActivity(in);
                         }
 
@@ -65,6 +66,7 @@ public class PeopleNamesCountdownActivity extends Activity {
             public void onClick(View v) {
                 // Perform action on click
                 Intent in2 = new Intent(PeopleNamesCountdownActivity.this, PeopleNamesActivity.class);
+                in2.putExtra("next_name", "Roy Kim");
                 startActivity(in2);
             }
         });
