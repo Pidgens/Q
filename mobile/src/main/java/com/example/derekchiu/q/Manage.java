@@ -60,6 +60,7 @@ public class Manage extends Activity {
 
                                     companiesList.add(new DataItem(object.getString("name"), queueList.size()));
                                     pfobjectsList.add(object);
+                                    listAdapter.notifyDataSetChanged();
                                     Log.d("okay", "Got " + queueList.size());
                                 } else {
                                     Log.d("pull queue", "Error: " + e.getMessage());
@@ -70,7 +71,6 @@ public class Manage extends Activity {
                     }
                     Log.d("okay", "Got " + queueList.size());
 
-                    listAdapter.notifyDataSetChanged();
                 } else {
                     Log.d("pull queue", "Error: " + e.getMessage());
                 }
@@ -97,6 +97,8 @@ public class Manage extends Activity {
 
                                                         companiesList.add(new DataItem(object.getString("name"), queueList.size()));
                                                         pfobjectsList.add(object);
+                                                        listAdapter.notifyDataSetChanged();
+
                                                         Log.d("okay", "Got " + queueList.size());
                                                     } else {
                                                         Log.d("pull queue", "Error: " + e.getMessage());
@@ -107,7 +109,6 @@ public class Manage extends Activity {
                                         }
                                         Log.d("okay", "Got " + queueList.size());
 
-                                        listAdapter.notifyDataSetChanged();
                                     } else {
                                         Log.d("pull queue", "Error: " + e.getMessage());
                                     }
