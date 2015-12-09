@@ -55,26 +55,26 @@ public class Manage extends Activity {
                     pfobjectsList.clear();
                     for (final ParseObject object : queueList) {
                         final String temp = object.getString("name");
-//                        DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
-//                            public void done(List<ParseObject> queueList, ParseException e) {
-//                                if (e == null) {
-//
-//                                    companiesList.add(new DataItem(object.getString("name"), queueList.size()));
-//                                    pfobjectsList.add(object);
-//                                    listAdapter.notifyDataSetChanged();
-//                                    Log.d("okay", "Got " + queueList.size());
-//                                } else {
-//                                    Log.d("pull queue", "Error: " + e.getMessage());
-//                                    size = 0;
-//                                }
-////                                companiesList.add(new DataItem(temp, size));
-////                                listAdapter.notifyDataSetChanged();
-//                                Log.d("found list item", "Got " + temp + " and " + size);
-//                            }
-//                        });
-                        companiesList.add(new DataItem(object.getString("name"), object.getInt("queueSize")));
-                        pfobjectsList.add(object);
-                        listAdapter.notifyDataSetChanged();
+                        DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
+                            public void done(List<ParseObject> queueList, ParseException e) {
+                                if (e == null) {
+
+                                    companiesList.add(new DataItem(object.getString("name"), queueList.size()));
+                                    pfobjectsList.add(object);
+                                    listAdapter.notifyDataSetChanged();
+                                    Log.d("okay", "Got " + queueList.size());
+                                } else {
+                                    Log.d("pull queue", "Error: " + e.getMessage());
+                                    size = 0;
+                                }
+//                                companiesList.add(new DataItem(temp, size));
+//                                listAdapter.notifyDataSetChanged();
+                                Log.d("found list item", "Got " + temp + " and " + size);
+                            }
+                        });
+//                        companiesList.add(new DataItem(object.getString("name"), object.getInt("queueSize")));
+//                        pfobjectsList.add(object);
+//                        listAdapter.notifyDataSetChanged();
 
                     }
                     Log.d("okay", "Got " + queueList.size());
@@ -93,46 +93,25 @@ public class Manage extends Activity {
                 handler.post(new Runnable(){
                     public void run(){
                         try{
-                            System.out.println("Timing working");
-                            companiesList = new ArrayList<DataItem>();
-//                            jobseekersList = new ArrayList<String>();
-                            pfobjectsList = new ArrayList<ParseObject>();
-                            DBUtil.getCompanies(new FindCallback<ParseObject>() {
-                                public void done(List<ParseObject> queueList, ParseException e) {
-                                    if (e == null) {
-                                        companiesList.clear();
-                                        pfobjectsList.clear();
-                                        for (final ParseObject object : queueList) {
-                                            final String temp = object.getString("name");
-                                            DBUtil.getQueue(object.getString("name"), new FindCallback<ParseObject>() {
-                                                public void done(List<ParseObject> queueList, ParseException e) {
-                                                    if (e == null) {
-//
-                                                        companiesList.add(new DataItem(object.getString("name"), queueList.size()));
-                                                        pfobjectsList.add(object);
-                                                        listAdapter.notifyDataSetChanged();
-                                                        size = queueList.size();
-                                                        Log.d("okay", "Got " + queueList.size());
-                                                    } else {
-                                                        Log.d("pull queue", "Error: " + e.getMessage());
-                                                        size = 0;
-                                                    }
-//                                                    companiesList.add(new DataItem(temp, size));
-//                                                    listAdapter.notifyDataSetChanged();
-//                                                    Log.d("found list item", "Got " + temp + " and " + size);
-                                                }
-                                            });
-
+                            Log.d("Run", "running");
+                            for (final DataItem object : companiesList) {
+                                final String temp = object.getCompany();
+                                DBUtil.getQueue(temp, new FindCallback<ParseObject>() {
+                                    public void done(List<ParseObject> queueList, ParseException e) {
+                                        if (e == null) {
+                                            object.setQueue(queueList.size());
+                                            listAdapter.notifyDataSetChanged();
+                                            size = queueList.size();
+                                            Log.d("okay", "Got " + queueList.size());
+                                        } else {
+                                            Log.d("pull queue", "Error: " + e.getMessage());
+                                            size = 0;
                                         }
-                                        Log.d("okay", "Got " + queueList.size());
-
-                                    } else {
-                                        Log.d("pull queue", "Error: " + e.getMessage());
                                     }
-                                }
-                            });
+                                });
 
-                        } catch (Exception e){
+                            }
+                        } catch (Exception ex) {
 
                         }
                     }
@@ -140,7 +119,7 @@ public class Manage extends Activity {
 
             }
         };
-//        timer.schedule(doAsynchronousTask, 30000, 30000); //should do asynchronous task every minute
+        timer.schedule(doAsynchronousTask, 2000, 2000);
 
 
         companiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
