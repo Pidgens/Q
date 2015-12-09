@@ -15,6 +15,10 @@ public class CompanyPlaceList {
         return list;
     }
 
+    public static void forceChange() {
+        list = list;
+    }
+
     private static void init() {
         if (list == null) {
             Log.d("CompanyPlaceList", "Creating a new list");

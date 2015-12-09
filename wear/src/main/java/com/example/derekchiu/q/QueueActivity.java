@@ -85,6 +85,7 @@ public class QueueActivity extends Activity implements DataApi.DataListener,
                     Log.d("QueueActivity", "This is running");
                     if (QueueGridPagerAdapter.getInstance() != null) {
                         Log.d("QueueActivity", "QueueGridPagerAdapter updated");
+                        CompanyPlaceList.forceChange();
                         QueueGridPagerAdapter.getInstance().notifyDataSetChanged();
                         setUI();
                     }
