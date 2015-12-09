@@ -1,5 +1,7 @@
 package com.example.derekchiu.q;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -15,6 +17,7 @@ public class CompanyPlaceList {
 
     private static void init() {
         if (list == null) {
+            Log.d("CompanyPlaceList", "Creating a new list");
             list = new ArrayList<CompanyPlace>();
         }
     }
@@ -25,8 +28,10 @@ public class CompanyPlaceList {
     public static void updateList(ArrayList<String> cps) {
         ArrayList<CompanyPlace> replace = new ArrayList<CompanyPlace>();
         for (String cp: cps) {
+            Log.d("CompanyPlaceList", cp);
             String[] cpsplit = cp.split(" ");
-            replace.add(new CompanyPlace(cpsplit[0], Integer.parseInt(cpsplit[1])));
+            replace.add(new CompanyPlace(cpsplit[0].replace('_', ' '),
+                    Integer.parseInt(cpsplit[1])));
         }
         list = replace;
     }

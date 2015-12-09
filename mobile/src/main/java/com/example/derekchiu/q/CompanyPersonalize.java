@@ -171,7 +171,7 @@ public class CompanyPersonalize extends Activity {
                 EditText seeking = (EditText) findViewById(R.id.cp_seek);
                 i.putExtra("company", company.getText().toString());
                 dbutil.saveRecruiter(androidId, name.toString(), company.getText().toString(), seeking.getText().toString());
-                WearCommunicationBridge.startWearable(CompanyPersonalize.this);
+                WearCommunicationBridge.startCompanyWearable(CompanyPersonalize.this);
                 startActivity(i);
             }
         });

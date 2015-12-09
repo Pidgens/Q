@@ -35,9 +35,7 @@ import java.util.Calendar;
 /**
  * Created by derekchiu on 11/30/15.
  */
-public class JSPersonalize extends Activity implements
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class JSPersonalize extends Activity {
     String androidId;
     RelativeLayout jsp_layout;
     AutoCompleteTextView school;
@@ -45,8 +43,6 @@ public class JSPersonalize extends Activity implements
     AutoCompleteTextView positions;
     Button nextButton;
     Button addPos;
-    String WEARABLE_JS_PATH = "/wearable_js";
-    GoogleApiClient googleClient;
     String begin_welcome_msg = "Welcome ";
     String end_welcome_msg = ", help us let you know better by filling out this form";
     TextView welcomeTv;
@@ -91,42 +87,17 @@ public class JSPersonalize extends Activity implements
             }
         });
 
-        googleClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        googleClient.connect();
-
         nextButton = (Button) findViewById(R.id.jsNext);
         nextButton.setBackgroundColor(getResources().getColor(R.color.dark_blue));
         nextButton.setTextColor(getResources().getColor(R.color.light_blue));
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int seconds = c.get(Calendar.SECOND);
                 Intent i = new Intent(JSPersonalize.this, Manage.class);
-                i.putExtra("userId", androidId);
-                DataMap notifyWearable = new DataMap();
-                notifyWearable.putInt("time", seconds);
-                new SendToDataLayerThread(WEARABLE_JS_PATH, notifyWearable).start();
+                WearCommunicationBridge.startJSWearable(JSPersonalize.this, androidId);
                 startActivity(i);
             }
         });
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        Log.v("connected", "cooL");
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
     }
 
     private static final String[] SCHOOLS = new String[] {
@@ -161,31 +132,4 @@ public class JSPersonalize extends Activity implements
 
     };
 
-    class SendToDataLayerThread extends Thread {
-        String path;
-        DataMap dataMap;
-
-        // Constructor for sending data objects to the data layer
-        SendToDataLayerThread(String p, DataMap data) {
-            path = p;
-            dataMap = data;
-        }
-
-        public void run() {
-            // Construct a DataRequest and send over the data layer
-
-            PutDataMapRequest putDMR = PutDataMapRequest.create(path);
-
-            putDMR.getDataMap().putAll(dataMap);
-            PutDataRequest request = putDMR.asPutDataRequest();
-            DataApi.DataItemResult result = Wearable.DataApi.putDataItem(googleClient, request).await();
-            if (result.getStatus().isSuccess()) {
-                Log.v("myTag", "DataMap: " + dataMap + " sent successfully to data layer ");
-            }
-            else {
-                // Log an error
-                Log.v("myTag", "ERROR: failed to send DataMap to data layer");
-            }
-        }
-    }
 }
