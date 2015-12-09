@@ -18,7 +18,15 @@ public class DataItem {
         return company;
     }
 
+    public void setCompany(String c) {
+        this.company = c;
+    }
+
     public int getQueue(){
         return queue;
+    }
+
+    public void setQueue(int r) {
+        this.queue = r;
     }
 }
