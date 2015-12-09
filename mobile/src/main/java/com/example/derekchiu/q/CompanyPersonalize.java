@@ -66,7 +66,7 @@ public class CompanyPersonalize extends Activity implements
                 i.putExtra("user", extras.getString("user"));
 
 
-                String name = extras.getString("username");
+                String name = extras.getString("user");
                 EditText company = (EditText) findViewById(R.id.editText);
                 EditText seeking = (EditText) findViewById(R.id.cp_seek);
                 i.putExtra("company", company.getText().toString());
