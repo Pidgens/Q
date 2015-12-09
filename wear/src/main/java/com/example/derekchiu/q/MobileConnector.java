@@ -1,26 +1,19 @@
 package com.example.derekchiu.q;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
-import com.google.android.gms.wearable.WearableListenerService;
-import android.util.Log;
 import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.WearableListenerService;
 
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -72,10 +65,13 @@ public class MobileConnector extends WearableListenerService {
         } else if (path.equals(WEARABLE_QUEUED_PATH)) {
             ArrayList<String> currentList = dataMap.getStringArrayList(DATA_PLACE_ARRAY);
             if (currentList != null) {
+                Log.d("MobileConnector", currentList.toString());
                 CompanyPlaceList.updateList(currentList);
                 if (QueueGridPagerAdapter.getInstance() != null) {
                     QueueGridPagerAdapter.getInstance().notifyDataSetChanged();
                 }
+            } else {
+                Log.d("MobileConnector", "Did not receive data");
             }
             Log.v("path", "queued_update");
         } else {
