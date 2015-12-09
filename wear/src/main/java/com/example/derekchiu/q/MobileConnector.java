@@ -72,10 +72,13 @@ public class MobileConnector extends WearableListenerService {
         } else if (path.equals(WEARABLE_QUEUED_PATH)) {
             ArrayList<String> currentList = dataMap.getStringArrayList(DATA_PLACE_ARRAY);
             if (currentList != null) {
+                Log.d("MobileConnector", currentList.toString());
                 CompanyPlaceList.updateList(currentList);
                 if (QueueGridPagerAdapter.getInstance() != null) {
                     QueueGridPagerAdapter.getInstance().notifyDataSetChanged();
                 }
+            } else {
+                Log.d("MobileConnector", "Did not receive data");
             }
             Log.v("path", "queued_update");
         } else {
