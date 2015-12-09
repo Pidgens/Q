@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 
@@ -42,7 +45,7 @@ public class JSPersonalize extends Activity implements
     AutoCompleteTextView major;
     AutoCompleteTextView positions;
     Button nextButton;
-    Button addPos;
+    boolean changeColor;
     String WEARABLE_JS_PATH = "/wearable_js";
     GoogleApiClient googleClient;
     String begin_welcome_msg = "Welcome ";
@@ -53,7 +56,7 @@ public class JSPersonalize extends Activity implements
     protected void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.js_personalize);
-
+        nextButton = (Button) findViewById(R.id.jsNext);
         welcomeTv = (TextView) findViewById(R.id.welcome);
         school = (AutoCompleteTextView) findViewById(R.id.school);
         final ArrayAdapter<String> schoolAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, SCHOOLS);
@@ -77,6 +80,28 @@ public class JSPersonalize extends Activity implements
                 school.showDropDown();
             }
         });
+
+        school.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (Arrays.asList(SCHOOLS).contains(s.toString())) {
+                    nextButton.setEnabled(true);
+                    nextButton.setBackgroundColor(getResources().getColor(R.color.dark_blue));
+                }
+            }
+        });
+
+
 
         androidId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -117,9 +142,6 @@ public class JSPersonalize extends Activity implements
                 .build();
         googleClient.connect();
 
-        nextButton = (Button) findViewById(R.id.jsNext);
-        nextButton.setBackgroundColor(getResources().getColor(R.color.dark_blue));
-        nextButton.setTextColor(getResources().getColor(R.color.light_blue));
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +155,11 @@ public class JSPersonalize extends Activity implements
                 startActivity(i);
             }
         });
+
+
     }
+
+
 
     @Override
     public void onConnected(Bundle bundle) {
