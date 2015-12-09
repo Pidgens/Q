@@ -130,8 +130,8 @@
         android:id="@+id/js_addText"
         android:background="@color/actual_light_blue"
         android:layout_marginRight="10dp"
-        android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/welcome" />
+        android:layout_alignTop="@+id/position"
+        android:layout_alignEnd="@+id/major" />
 
     <AutoCompleteTextView
         android:layout_width="wrap_content"
