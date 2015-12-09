@@ -34,7 +34,7 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
     @Override
     public Fragment getFragment(final int i, int j) {
         Log.d("Here", i + " " + j + " Here");
-        final CompanyQueue cq = CompanyQueue.getMockData().get(i);
+        final CompanyPlace cq = CompanyPlaceList.getList().get(i);
         if (j == 0) {
             Fragment fragment = new Fragment() {
                 @Override
@@ -82,21 +82,21 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
                     layout.addView(name);
                     layout.addView(place);
                     layout.addView(image, layoutParams);
-                    if (i + 1 == CompanyQueue.getMockData().size()) {
-                        (new Thread() {
-                            public void run() {
-                                try {
-                                    sleep(4000);
-                                    Log.d("were", "We are definitely here");
-                                    Intent timer = new Intent(context, TimerActivity.class);
-                                    timer.putExtra(TimerActivity.COMPANY, cq.getName());
-                                    context.startActivity(timer);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-                    }
+//                    if (i + 1 == CompanyPlaceList.getList().size()) {
+//                        (new Thread() {
+//                            public void run() {
+//                                try {
+//                                    sleep(4000);
+//                                    Log.d("were", "We are definitely here");
+//                                    Intent timer = new Intent(context, TimerActivity.class);
+//                                    timer.putExtra(TimerActivity.COMPANY, cq.getName());
+//                                    context.startActivity(timer);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }).start();
+//                    }
                     return layout;
                 }
             };
@@ -129,7 +129,7 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
 
     @Override
     public int getRowCount() {
-        return CompanyQueue.getMockData().size();
+        return CompanyPlaceList.getList().size();
     }
 
     @Override
@@ -148,8 +148,8 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
                 Intent feedback = new Intent(context, FeedbackActivity.class);
                 feedback.putExtra(FeedbackActivity.FEEDBACK_TYPE, FeedbackActivity.DROP);
                 feedback.putExtra(FeedbackActivity.COMPANY,
-                        CompanyQueue.getMockData().get(i).getName());
-                CompanyQueue.getMockData().remove(i);
+                        CompanyPlaceList.getList().get(i).getName());
+                CompanyPlaceList.getList().remove(i);
                 QueueGridPagerAdapter.this.notifyDataSetChanged();
                 context.startActivity(feedback);
             }
@@ -164,12 +164,12 @@ public class QueueGridPagerAdapter extends FragmentGridPagerAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CompanyQueue.getMockData().get(i).bumpQueue();
+                CompanyPlaceList.getList().get(i).bumpQueue();
                 QueueGridPagerAdapter.this.notifyDataSetChanged();
                 Intent feedback = new Intent(context, FeedbackActivity.class);
                 feedback.putExtra(FeedbackActivity.FEEDBACK_TYPE, FeedbackActivity.BUMP);
                 feedback.putExtra(FeedbackActivity.COMPANY,
-                        CompanyQueue.getMockData().get(i).getName());
+                        CompanyPlaceList.getList().get(i).getName());
                 context.startActivity(feedback);
             }
         });

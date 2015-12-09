@@ -22,6 +22,7 @@ public class FeedbackActivity extends Activity {
     public static final String COMPANY = "company";
     public static final String BUMP = "bump";
     public static final String DROP = "drop";
+    public static final String ACCEPT  = "accept";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
