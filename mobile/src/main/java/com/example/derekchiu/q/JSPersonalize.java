@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -14,21 +13,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
-import com.google.android.gms.wearable.Wearable;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 
 
 
@@ -93,6 +83,9 @@ public class JSPersonalize extends Activity {
                 if (Arrays.asList(SCHOOLS).contains(s.toString())) {
                     nextButton.setEnabled(true);
                     nextButton.setBackgroundColor(getResources().getColor(R.color.dark_blue));
+                } else {
+                    nextButton.setEnabled(false);
+                    nextButton.setBackgroundColor(getResources().getColor(R.color.grey));
                 }
             }
         });

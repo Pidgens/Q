@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -62,13 +65,34 @@ public class CompanyPersonalize extends Activity {
                 public void done(List<ParseObject> objects, ParseException e) {
 //                    Log.i("WORKS", "YES");
                     ArrayList<String> arrayList = new ArrayList<String>();
-                    ArrayList<String> posArrayList = new ArrayList<String>();
                     for (ParseObject comp : objects) {
                         arrayList.add(comp.getString("name"));
                     }
-                    String[] company_list = arrayList.toArray(new String[arrayList.size()]);
+                    final String[] company_list = arrayList.toArray(new String[arrayList.size()]);
                     ArrayAdapter<String> cpAdapter = new ArrayAdapter<String>(CompanyPersonalize.this, android.R.layout.simple_dropdown_item_1line, company_list);
                     company.setAdapter(cpAdapter);
+                    company.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            if (Arrays.asList(company_list).contains(s.toString())) {
+                                next.setEnabled(true);
+                                next.setBackgroundColor(getResources().getColor(R.color.dark_blue));
+                            } else {
+                                next.setEnabled(false);
+                                next.setBackgroundColor(getResources().getColor(R.color.grey));
+                            }
+                        }
+                    });
                 }
             });
         } catch (Exception e) {
@@ -122,7 +146,6 @@ public class CompanyPersonalize extends Activity {
                 positions.showDropDown();
             }
         });
-
 
         cp_seek2.setOnClickListener(new View.OnClickListener() {
             @Override
