@@ -125,7 +125,6 @@ public class JSPersonalize extends Activity {
         });
 
         nextButton = (Button) findViewById(R.id.jsNext);
-        nextButton.setBackgroundColor(getResources().getColor(R.color.dark_blue));
         nextButton.setTextColor(getResources().getColor(R.color.light_blue));
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override

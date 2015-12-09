@@ -24,7 +24,6 @@
         android:imeOptions="actionDone"
         android:hint="Company Name"
         android:singleLine="true"
-        android:inputType="text"
         android:layout_alignTop="@+id/company"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/company"
